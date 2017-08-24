@@ -1,67 +1,35 @@
 <template>
 	<div id="app">
-		<transition name="fade"
-		            mode="out-in">
+		<keep-alive>
 			<router-view></router-view>
-		</transition>
+		</keep-alive>
+
+		<form id="image-file-form">
+			<input type="file" id="image-file-input" accept="image/*" @change="onCaptureLogo($event)" style="display: none"/>
+		</form>
 	</div>
 </template>
 
 <script>
-export default {
-	name: 'app',
-	components: {
-	}
-}
+	import api from './api'
 
+	export default {
+		methods: {
+            onCaptureLogo: function(event) {
+                var self = this;
+
+                var file = event.target.files[0];
+                if (file.size / 1024 / 1024 > 5){  
+                    var value = file.size / 1024 / 1024;  
+                    self.$channel.reject(new Error('图片大小' + value .toFixed(0)  + "MB，超过最大5M限制，请修改！"))
+                } else {
+                	api.upload(file).then(function(url){
+                    	self.$channel.resolve(url)
+                    }, function(err){
+                    	self.$channel.reject(err)
+                    })
+                }
+            },
+		}
+	}
 </script>
-
-<style lang="scss">
-body {
-	margin: 0px;
-	padding: 0px;
-	/*background: url(assets/bg1.jpg) center !important;
-		background-size: cover;*/
-	// background: #1F2D3D;
-	font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
-	font-size: 14px;
-	-webkit-font-smoothing: antialiased;
-}
-
-#app {
-	position: absolute;
-	top: 0px;
-	bottom: 0px;
-	width: 100%;
-}
-
-.el-submenu [class^=fa] {
-	vertical-align: baseline;
-	margin-right: 10px;
-}
-
-.el-menu-item [class^=fa] {
-	vertical-align: baseline;
-	margin-right: 10px;
-}
-
-.toolbar {
-	background: #f2f2f2;
-	padding: 10px;
-	//border:1px solid #dfe6ec;
-	margin: 10px 0px;
-	.el-form-item {
-		margin-bottom: 10px;
-	}
-}
-
-.fade-enter-active,
-.fade-leave-active {
-	transition: all .2s ease;
-}
-
-.fade-enter,
-.fade-leave-active {
-	opacity: 0;
-}
-</style>

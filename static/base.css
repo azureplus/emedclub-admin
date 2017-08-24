@@ -1,0 +1,73 @@
+/*全局公用css*/
+
+body,
+html {
+  font-family: "Microsoft YaHei", 微软雅黑;
+  color: #333;
+  background: #f7f7f7;
+  padding: 0;
+  margin: 0;
+}
+
+ul,
+p,
+h4 {
+  padding: 0;
+  margin: 0;
+}
+
+i {
+  font-style: normal;
+}
+
+a {
+  text-decoration: none;
+  out-line: none
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  vertical-align: middle;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.pa {
+  position: absolute;
+}
+
+.pr {
+  position: relative;
+}
+
+.pf {
+  position: fixed;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+  font-size: 0;
+}
+
+.clearfix {
+  *zoom: 1;
+}

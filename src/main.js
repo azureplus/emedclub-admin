@@ -1,52 +1,96 @@
-import babelpolyfill from 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
-//import './assets/theme/theme-green/index.css'
-import VueRouter from 'vue-router'
-import store from './vuex/store'
-import Vuex from 'vuex'
-//import NProgress from 'nprogress'
-//import 'nprogress/nprogress.css'
-import routes from './routes'
-import Mock from './mock'
-Mock.bootstrap();
-import 'font-awesome/css/font-awesome.min.css'
 
-Vue.use(ElementUI)
-Vue.use(VueRouter)
-Vue.use(Vuex)
+import api from './api'
 
-//NProgress.configure({ showSpinner: false });
+import store from './store'
 
-const router = new VueRouter({
-  routes
-})
+import ChannelWeixin from './channel/ChannelWeixin'
+import ChannelDefault from './channel/ChannelDefault'
+let ua = navigator.userAgent.toLowerCase();
+let result = ua.match(/MicroMessenger/i);
+if (result && result.length > 0 && result[0] == "micromessenger") {
+	var channel = new ChannelWeixin();
+} else {
+	var channel = new ChannelDefault();
+}
+Vue.prototype.$channel = channel;
 
+import router from './router'
 router.beforeEach((to, from, next) => {
-  //NProgress.start();
-  if (to.path == '/login') {
-    sessionStorage.removeItem('user');
-  }
-  let user = JSON.parse(sessionStorage.getItem('user'));
-  if (!user && to.path != '/login') {
-    next({ path: '/login' })
-  } else {
-    next()
-  }
+	if (_hmt) {
+		_hmt.push(['_trackPageview', to.fullPath]);
+	}
+
+	if (to.matched.some(record => record.meta.requiresAuth)) {
+	   	if (null == store.state.customers.me) {
+		   	channel.loginQuietly().then(function(account){
+		   		account.setCookie();
+		   		store.dispatch('login', account.customer_id).then(function(){
+		   			next();
+		   		}, function(error){
+		   			channel.login(next, to.fullPath);
+		   		});
+		   	}, function(error){
+               	channel.login(next, to.fullPath);
+		   	})
+	    } else {
+	      next()
+	    }   
+	} else {
+		next();
+	}
 })
 
-//router.afterEach(transition => {
-//NProgress.done();
-//});
+var SimpleVueValidation = require('simple-vue-validator');
+SimpleVueValidation.extendTemplates({
+	error: '错误.',
+	required: '要填写.',
+	float: '要是数字.',
+	integer: '要是整数.',
+	number: '要是数字.',
+	lessThan: '要小于{0}.',
+	lessThanOrEqualTo: '要小于等于{0}.',
+	greaterThan: '要大于{0}.',
+	greaterThanOrEqualTo: '要大于等于{0}.',
+	between: '要在{0}和{1}之间.',
+	size: '长度必须是{0}.',
+	length: '长度必须是{0}.',
+	minLength: '至少{0}个字.',
+	maxLength: '最多{0}个字.',
+	lengthBetween: '长度必须是{0}和{1}之间.',
+	in: '必须是{0}中的任意一个.',
+	notIn: '不允许是{0}.',
+	match: '不匹配.',
+	regex: '格式不正确.',
+	digit: '必须是数字.',
+	email: '邮箱地址格式不正确.',
+	url: '网址格式不正确.',
+    optionCombiner: function (options) {
+    	if (options.length > 2) {
+        	options = [options.slice(0, options.length - 1).join('，'), options[options.length - 1]];
+      	}
+		
+      	return options.join('或');
+    }
+});
+Vue.use(SimpleVueValidation);
+
+// MuseUI 
+import MuseUI from 'muse-ui'
+import 'muse-ui/dist/muse-ui.css'
+// 自定义主题
+import './assets/theme.less'
+// 全局css 
+import "../static/base.css";
+Vue.use(MuseUI)
+
+Vue.config.productionTip = false
 
 new Vue({
-  //el: '#app',
-  //template: '<App/>',
-  router,
-  store,
-  //components: { App }
-  render: h => h(App)
-}).$mount('#app')
-
+    el: '#app',
+    router,
+    store,
+    template: '<App/>',
+    components: { App }
+})

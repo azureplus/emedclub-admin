@@ -1,57 +1,22 @@
-**demo**: [https://taylorchen709.github.io/vue-admin/](https://taylorchen709.github.io/vue-admin/)
+工作：
+1999年进入华为，有M2000/RNC/MSP/Polestar等多产品设计和开发经验。
 
-# To start
+2010年到2016年负责 MSP 基础软件架构设计和开发，领先行业组织构建 Plug-in Cloud、Real-time 微服务实现架构, 使得 Service Anchor、WSE 等快速产品化，支撑了 CloudEdge 解决方案、Small Cell 解决方案、MBB 开放解决方案的交付和商业成功。
+MSP软件架构借鉴了GAE的多应用和MESOS的两层调度理念，采用了组件化、服务化、应用化和分布式设计方案，包括以下几个子系统：
+1、CAE，自举的分布式运行环境，包括分布式部署，分布式一致性，分布式数据库，分布式文件系统，AMQP等分布式运行机制;
+2、SAD，应用生命周期管理中心，基于CAE开发，管理应用的动态上线、启动、监控、停止和下线；
+3、CEDC，资源管理应用，通过I层为一个业务实例分配具体的资源；
+4、APIGW，API网关应用，包括API管理和分布式消息等机制。
 
-This is a project template for [vue-cli](https://github.com/vuejs/vue-cli)
+技能：
+1、精通面向对象设计和数据库设计，熟练使用UML工具；
+2、十八年C++开发经验，熟悉javascript，python和java编程语言，单独开发了c++版本zookeeper和Python版本OSGi核心代码；
+3、熟悉各种分布式算法的实现；
 
-``` bash
-# install dependencies
-npm install
+爱好：
+喜欢研究软件方面的新技术，新工具和新方法，并动手实践，曾经在阿里云和腾讯云上动手开发过多款小软件，验证状态外置、负荷分担、数据分片等大型网站设计技术。
+喜欢读开源代码，这几年分别读过OPENSTACK，MESOS、YARN等开源产品的源代码。
+最近在研究TensorFlow的设计和使用。
 
-# serve with hot reload at localhost:8081
-npm run dev
-
-# build for production with minification
-npm run build
-
-```
-
-# Folder structure
-* build - webpack config files
-* config - webpack config files
-* dist - build
-* src -your app
-    * api
-    * assets
-    * common
-    * components - your vue components
-    * mock
-    * styles
-    * views - your pages
-    * vuex
-    * App.vue
-    * main.js - main file
-    * routes.js
-* static - static assets
-
-# Theme
-You can change theme by 
-1. Generate theme packages by [https://elementui.github.io/theme-preview/#/](https://elementui.github.io/theme-preview/#/)
-2. Put theme packages in src/assets/theme/
-3. Edit src/main.js 
-``` bash
-   import 'element-ui/lib/theme-default/index.css'
-   to
-   import './assets/theme/your-theme/index.css'
-```
-4. Edit src/styles/vars.scss
-
-![theme-blue](https://raw.githubusercontent.com/taylorchen709/markdown-images/master/vueadmin/rec-demo.gif)
-![theme-green](https://raw.githubusercontent.com/taylorchen709/markdown-images/master/vueadmin/theme-green.png)
-
-# Browser support
-
-Modern browsers and IE 10+.
-
-# License
-[MIT](http://opensource.org/licenses/MIT)
+展望：
+软件云化已经是很明确的一个发展方向了，个人比较看好BaaS类似平台，简化了云化软件的开发、部署和维护。
