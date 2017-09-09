@@ -1,9 +1,8 @@
 <template>
-    <base-layout :progressing="refreshing" :toast="toast">
-        <mu-appbar title="消拼">
-        </mu-appbar> 
+    <div>
+        <mu-appbar title="医麦客管理后台"></mu-appbar> 
 
-        <mu-content-block>
+        <mu-content-block style="width:400px;margin:auto">
             <div class="logo"></div>
             
             <mu-list>
@@ -13,21 +12,19 @@
                 </mu-list-item>
 
                 <mu-list-item>
-                    <mu-raised-button label="进入消拼" fullWidth @click="onLogin"/>
+                    <mu-raised-button label="进入医麦客管理后台" fullWidth @click="onLogin"/>
                 </mu-list-item>
 
                 <mu-list-item>
-                    <mu-flat-button label="免费注册" primary @click="onRegister"/>
                     <mu-flat-button label="重置密码" primary @click="onReset" style="float:right"/>
                 </mu-list-item>
             </mu-list>
         </mu-content-block>
-    </base-layout>
+    </div>
 </template>
 
 <script>
     import md5 from 'blueimp-md5'
-    import BaseLayout from '../BaseLayout'
     import api from '../../api'
     import Mixin from '../../mixin'
     import SimpleVueValidation from 'simple-vue-validator'
@@ -68,30 +65,18 @@
                 })
             },
 
-            onBack(){
-                this.$router.back();
-            },
-
-            onRegister() {
-                this.gotoWith("/register", this.$route.query.redirect)
-            },
-
             onReset() {
                 this.gotoWith("/reset", this.$route.query.redirect)
             },
-        },
-
-        components: {
-            'base-layout': BaseLayout
         }
     }
 </script>
 
 <style lang="less" rel="stylesheet/less" scoped>
     .logo {
-      width: 4rem;
-      height: 4rem;
-      background: url(../../../static/images/logo.jpg) no-repeat;
+      width: 120px;
+      height: 120px;
+      background: url(../../../static/images/logo.png) no-repeat;
       background-size: 100%;
       margin: 1.5rem auto 1.5em;
       max-width: 400px;

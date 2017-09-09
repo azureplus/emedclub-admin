@@ -1,26 +1,11 @@
 <template>
     <base-layout :progressing="refreshing" :toast="toast">
-        <mu-appbar :title="title" slot="header">
-            <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="back"/>
-			<mu-icon-button icon="refresh" slot="right" @click="onRefresh" />
-			<mu-icon-button icon="add" slot="right" @click="openSheet" v-if="merchant && merchant.id == $route.query.merchant_id"/>
-        </mu-appbar>
-
-		<activity-list :activities="activities"/>
-
-		<mu-bottom-sheet :open="sheet" @close="closeSheet">
-            <mu-raised-button label="发布满减活动" default @click="onNewActivity(0)" style="width:100%;height:45px"/>
-			<mu-raised-button label="发布满折活动" default @click="onNewActivity(1)" style="width:100%;height:45px"/>
-			<mu-raised-button label="发布快消活动" default @click="onNewActivity(2)" style="width:100%;height:45px"/>
-            <mu-raised-button label="再想一下" @click="closeSheet" style="width:100%;height:45px"/>
-        </mu-bottom-sheet>
     </base-layout>
 </template>
 
 <script>
 	import BaseLayout from '../BaseLayout'
 	import api from '../../api'
-	import ActivityList from './List'
 	import { mapGetters, mapActions } from 'vuex'
 	import Mixin from '../../mixin'
 
@@ -89,7 +74,6 @@
 
     	components: {
       		'base-layout': BaseLayout,
-      		'activity-list': ActivityList
     	}
 	}
 </script>

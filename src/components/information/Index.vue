@@ -1,18 +1,10 @@
 <template>
     <base-layout :progressing="refreshing" :toast="toast" :loading="loading" @on-load-more="onLoadMore">
-        <mu-appbar :title="title" slot="header">
-            <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="onBack"/>
-            <mu-icon-button icon="add" slot="right" @click="onNewBrand" />
-            <mu-icon-button icon="refresh" slot="right" @click="onRefresh" />
-        </mu-appbar>
-
-        <brand-list :brands="brands"/>
     </base-layout>
 </template>
 
 <script>
     import BaseLayout from '../BaseLayout'
-    import BrandList from '../brand/List'
     import api from '../../api'
     import { mapGetters, mapActions } from 'vuex'
     import Mixin from '../../mixin'
@@ -91,7 +83,6 @@
 
         components: {
             'base-layout': BaseLayout,
-            'brand-list': BrandList
         }
     }
 </script>

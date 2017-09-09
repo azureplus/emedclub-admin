@@ -1,27 +1,16 @@
 <template>
     <base-layout>
-        <mu-appbar title="所有拼单" slot="header">
-            <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="onBack"/>
-            <mu-icon-button icon="refresh" slot="right" @click="onRefresh" />
-        </mu-appbar>
-
-		<contract-list :contracts="contracts"/>	
     </base-layout>
 </template>
 
 <script>
 	import BaseLayout from '../BaseLayout'
 	import api from '../../api'
-	import ContractList from './List'
 	import { mapGetters, mapActions } from 'vuex'
 	import Mixin from '../../mixin'
 
 	export default {
 		mixins: [Mixin],
-
-		computed: mapGetters({
-    		me: 'me'
-  		}),
 
         data () {
             return {
@@ -59,7 +48,6 @@
 
     	components: {
       		'base-layout': BaseLayout,
-      		'contract-list': ContractList
     	}
 	}
 </script>

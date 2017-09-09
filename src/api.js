@@ -18,7 +18,7 @@ import Message      from './model/Message'
 import Setting      from './model/Setting'
 
 var url = Window.getBaseUrl();
-const _dao = new Dao("shopping", url, new AxiosDataSource());
+const _dao = new Dao(url, new AxiosDataSource());
 
 _dao.addSchema("Account", Account);
 _dao.addSchema("Activity", Activity).belongsTo("Merchant").hasMany("Favorable", "threshold ASC");

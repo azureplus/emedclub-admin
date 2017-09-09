@@ -1,21 +1,12 @@
 <template>
     <base-layout :progressing="refreshing" :toast="toast" :loading="loading" @on-load-more="onLoadMore">
-        <mu-appbar title="消拼" slot="header">
-            <mu-icon-button icon="search" slot="right" @click="onFindContract" />
+        <mu-appbar title="医麦客" slot="header">
+            <mu-icon-button icon="add" slot="right" @click="onAdd" />
             <mu-icon-button v-if="refresh" icon="refresh" slot="right" @click="onRefresh" />
             <mu-icon-button v-if="action && action.length > 0" :icon="action" slot="right" @click="onAction" />
         </mu-appbar>
 
         <slot></slot>
-
-        <mu-paper class='footr_box pf' slot="footer">
-            <mu-bottom-nav :value="bottomNav" @change="onChange" shift>
-                <mu-bottom-nav-item value="home"        title="消拼" icon="home"           />
-                <mu-bottom-nav-item value="nearby"      title="附近" icon="near_me"        />
-                <mu-bottom-nav-item value="contractor"  title="订单" icon="shopping_cart"  />
-                <mu-bottom-nav-item value="my"          title="我"   icon="perm_identity"  />
-            </mu-bottom-nav>
-        </mu-paper>
     </base-layout>
 </template>
 
@@ -38,12 +29,8 @@
         },
 
         methods: {
-            onChange (val) {
-                this.$router.push("/" + val);
-            },
-
-            onFindContract() {
-                this.$router.push('/find');
+            onAdd() {
+                this.$emit("on-add");
             },
 
             onAction() {

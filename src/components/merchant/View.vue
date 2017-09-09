@@ -1,36 +1,5 @@
 <template>
     <base-layout :progressing="refreshing" :toast="toast">
-        <mu-appbar :title="title" slot="header">
-            <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="onBack"/>
-            <mu-icon-button icon="content_copy" slot="right" @click="onCopyMerchant" />
-        </mu-appbar>
-
-        <mu-row gutter v-if="merchant" style="width:96%;margin-left:2%">
-            <mu-col width="25">
-                <img :src="merchant.logo" style="width:100%;margin-left:10px;margin-top:10px;"/>
-            </mu-col>
-            <mu-col width="75">
-                <div style="margin-top:10px;margin-left:10px;">
-                    <p style="font-size:larger;">{{merchant.title}}<mu-icon value="map" style="float: right;" @click="onShowMap"/></p>
-                    <p style="padding-bottom:2px">{{merchant.categoryName}}</p>
-                    <p style="padding-bottom:2px">{{merchant.address}}</p>
-                </div>
-            </mu-col>
-        </mu-row>
-
-        <mu-divider />
-        <mu-list>
-            <mu-list-item>
-                <mu-raised-button label="发布活动" fullWidth @click="openSheet" v-if="merchant"/>
-            </mu-list-item>                       
-        </mu-list>
-        <activity-list :activities="activities"/>
-
-		<mu-bottom-sheet :open="sheet" @close="closeSheet">
-            <mu-raised-button label="发布满减活动" default @click="onNewActivity(0)" style="width:100%;height:45px"/>
-			<mu-raised-button label="发布满折活动" default @click="onNewActivity(1)" style="width:100%;height:45px"/>
-            <mu-raised-button label="再想一下" @click="closeSheet" style="width:100%;height:45px"/>
-        </mu-bottom-sheet>
     </base-layout>
 </template>
 
@@ -40,7 +9,6 @@
     import { mapGetters, mapActions } from 'vuex'
     import Mixin from '../../mixin'
     import Merchant from '../../model/Merchant'
-    import ActivityList from '../activity/List'
 
     export default {
         mixins: [Mixin],
@@ -108,7 +76,6 @@
 
         components: {
             'base-layout': BaseLayout,
-            'activity-list': ActivityList
         }
     }
 </script>

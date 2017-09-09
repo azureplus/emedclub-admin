@@ -2,8 +2,7 @@ import Schema from "./Schema"
 import Model from "../model/Model"
 
 export default class Dao {
-    constructor(app, url, ds) {
-        this._app = app;
+    constructor(url, ds) {
         this._url = url;
         this._ds  = ds;
         this._schemas = [];
@@ -18,9 +17,9 @@ export default class Dao {
 
     rest(method, data, channel) {
         if (channel) {
-            return this._ds.post(this._url + "/api/" + method + "?app=" + this._app + "&channel=" + channel, data);
+            return this._ds.post(this._url + "/api/" + method + "?channel=" + channel, data);
         } else {
-            return this._ds.post(this._url + "/api/" + method + "?app=" + this._app, data);
+            return this._ds.post(this._url + "/api/" + method, data);
         }
     }
 
@@ -33,7 +32,6 @@ export default class Dao {
         
         return new Promise(function(resolve, reject) {
             var data = model.decode();
-            data["app"] = self._app;
 
             if (model.id) {
                 var promise = self.rest("update/" + model.className() + "/" + model.id, data);
@@ -108,8 +106,6 @@ export default class Dao {
         let self = this;
         
         return new Promise(function(resolve, reject) {
-            conditions["app"] = self._app;
-
             self.rest("select/" + className, {conditions: conditions, filters: filters}).then(function(attrs){
                 let models = [];
                 
