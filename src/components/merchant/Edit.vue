@@ -1,6 +1,6 @@
 <template>
     <base-layout :progressing="refreshing" :toast="toast">
-        <mu-appbar title="商户信息" slot="header">
+        <mu-appbar title="企业" slot="header">
             <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="onBack"/>
         </mu-appbar>
 

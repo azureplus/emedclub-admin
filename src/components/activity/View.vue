@@ -1,54 +1,10 @@
 <template>
     <baselayout :progressing="refreshing" :toast="toast">
-        <mu-appbar :title="title" slot="header">
-            <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="back"/>
-            <mu-icon-button v-if="activity && activity.state != 2 && activity.customer_id == me.id" icon="stop" slot="right" @click="openSheet" />
-        </mu-appbar>
-
-        <div v-if="activity">
-            <mu-row gutter v-if="activity" style="width:96%;margin-left:2%">
-                <mu-col width="25">
-                    <img :src="activity.merchant.logo" style="width:100%;margin-left:10px;margin-top:10px;"/>
-                </mu-col>
-                <mu-col width="75">
-                    <div style="margin-top:10px;margin-left:10px;">
-                        <p style="font-size:larger;padding-bottom:5px">{{activity.merchant.title}}</p>
-                        <p style="padding-bottom:3px">{{activity.duration()}}</p>
-                        <p>{{activity.toString()}}</p>
-                    </div>
-                </mu-col>
-            </mu-row>
-
-            <mu-divider/>
-            <mu-list>
-                <mu-list-item>
-                    <mu-raised-button label="我要拼单" fullWidth @click="onNewContract"/>
-                </mu-list-item>                       
-            </mu-list>
-
-            <contract-list :contracts="contracts" header="拼单"/>
-            <mu-list>
-                <mu-list-item title="所有拼单" @click="onListContract">
-                    <mu-icon slot="right" value="keyboard_arrow_right"/>
-                </mu-list-item>
-            </mu-list>
-
-            <mu-divider/>
-
-            <evaluation-list :evaluations="evaluations" header="评价"/>
-        </div>
-
-        <mu-bottom-sheet :open="sheet" @close="closeSheet">
-            <mu-raised-button label="确定要停止活动" primary @click="onStopActivity" style="width:100%;height:45px"/>
-            <mu-raised-button label="再想一下" @click="closeSheet" style="width:100%;height:45px"/>
-        </mu-bottom-sheet>
     </baselayout>
 </template>
 
 <script>
     import BaseLayout from '../BaseLayout'
-    import ContractList from '../contract/List'
-    import EvaluationList from '../evaluation/List'
     import api from '../../api'
     import { mapGetters, mapActions } from 'vuex'
     import Mixin from '../../mixin'
@@ -130,8 +86,6 @@
 
         components: {
             'baselayout': BaseLayout,
-            'contract-list': ContractList,
-            'evaluation-list': EvaluationList
         }
     }
 </script>

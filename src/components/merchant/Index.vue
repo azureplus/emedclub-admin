@@ -1,5 +1,5 @@
 <template>
-    <layout :progressing="refreshing" :toast="toast">
+    <layout :progressing="refreshing" :toast="toast" @on-add="onAdd" @on-refresh="onRefresh">
       <mu-raised-button label="全不选" @click="onUnselectAll"/>
       <mu-table multiSelectable enableSelectAll ref="table">
         <mu-thead>
@@ -11,11 +11,11 @@
           </mu-tr>
         </mu-thead>
         <mu-tbody>
-            <mu-tr>
-                <mu-td>1</mu-td>
-                <mu-td>1</mu-td>
-                <mu-td>John Smith</mu-td>
-                <mu-td>Employed</mu-td>
+            <mu-tr v-for="merchant in merchants">
+                <mu-td><img src="{{merchant.id}}" width=100 height=100/></mu-td>
+                <mu-td>{{merchant.logo}}</mu-td>
+                <mu-td>{{merchant.name}}</mu-td>
+                <mu-td>{{merchant.introduction}}/mu-td>
             </mu-tr>
         </mu-tbody>
       </mu-table>
@@ -55,6 +55,10 @@
 
             onAdd: function() {
                 this.goto("/merchant/new")
+            },
+
+            onUnselectAll: funtion() {
+                this.$refs.table.unSelectAll()
             },
 
             loadData: function() {
