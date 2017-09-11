@@ -2,6 +2,7 @@
     <layout :progressing="refreshing" :toast="toast">
         <mu-raised-button label="修改" @click="onEdit"/>
         <mu-raised-button label="删除" @click="onDestroy"/>
+        <mu-raised-button label="增加药品" @click="onAddMedicine"/>
 
         <mu-table multiSelectable enableSelectAll ref="table">
             <mu-tbody>
@@ -61,7 +62,11 @@
 
             onEdit: function() {
                 this.goto("/merchant/edit/" + this.merchant.id)
-            }
+            },
+
+            onAddMedicine: function() {
+                this.goto("/medicine/new?name=" + this.merchant.name)
+            }            
         },
 
         components: {
