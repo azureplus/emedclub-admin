@@ -1,93 +1,95 @@
 <template>
-    <base-layout :progressing="refreshing" :toast="toast">
+    <layout :progressing="refreshing" :toast="toast">
         <mu-appbar title="企业" slot="header">
             <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="onBack"/>
         </mu-appbar>
 
        <mu-content-block v-if="merchant">
             <mu-list>
-                <mu-list-item v-if="$route.query.category == 'address'">
-                    <mu-text-field label="商户地点" v-model="address" :errorText="validation.firstError('address')" fullWidth />
-                    <mu-icon value="my_location" slot="right" @click="onLocate" :size="32"/>
+                <mu-list-item>
+                    <mu-text-field label="名称" v-model="merchant.name" :disabled="true" fullWidth />
                 </mu-list-item>
+                <mu-list-item>
+                    <mu-paper :zDepth="1" style="width: 100px;height: 100px;margin: 0 auto;">
+                        <img :src="merchant.logo" style="width: 100px;height: 100%" v-if="merchant.logo"/>
+                        <div style="text-align: center;padding-top: 40px;" v-else>LOGO</div>
+                    </mu-paper>
+                </mu-list-item>
+                <mu-list-item>
+                    <mu-text-field label="介绍" v-model="merchant.introduction" multiLine :rows="10" :rowsMax="60" fullWidth />
+                </mu-list-item>
+                <mu-list-item>
+                    <mu-raised-button label="保存" fullWidth @click="onSave"/>
+                </mu-list-item
             </mu-list>
         </mu-content-block>
-    </base-layout>
+    </layout>
 </template>
 
 <script>
-    import BaseLayout from '../BaseLayout'
+    import Layout from '../Layout'
     import api from '../../api'
-    import { mapGetters, mapActions } from 'vuex'
     import SimpleVueValidation from 'simple-vue-validator';
     import Mixin from '../../mixin'
-    import Map from '../../util/map'
 
     export default {
         mixins: [Mixin],
 
         data () {
             return {
-                address: '',
+                merchant: null,
             }
         },
 
-        computed: mapGetters({
-            merchant: 'merchant'
-        }),
-
         validators: {
-            'address': function (value) {
-                return SimpleVueValidation.Validator.value(value).required().custom(function() {
-                    if (!SimpleVueValidation.Validator.isEmpty(value)) {
-                        Map.point(value).then(function(pt){
-                        }, function(error){
-                            return error.message;
-                        });
-                    }
-                });
+            'merchant.name': function (value) {
+                return SimpleVueValidation.Validator.value(value).required();
+            },
+            'merchant.introduction': function (value) {
+                return SimpleVueValidation.Validator.value(value).required();
             },
         },
 
         methods: {
             onInitialize: function() {
-                this.address  = this.merchant.address;
-            },
-
-            onLocate() {
-                var self = this;
-
-                self.address = "";
-                Map.locate().then(function(point){
-                    Map.address(point).then(function(address){
-                        if (self.address.length == 0) {
-                            self.address  = address; 
-                        }
-                    })
-                })
-            },
-
-            onBack: function() {
                 var self = this;
                 
-                if (self.$route.query.category == 'address') {
-                    self.$validate("address").then(function (success) {
-                        if (success) {
-                            Map.point(self.address).then(function(pt){
-                                self.$store.dispatch('changeMerchant', {address: self.address, location: [pt.lng, pt.lat]});
-                            });
-
-                            self.back();
-                        }
-                    });
+                if (self.$route.params.id) {
+                    api.queryOne("Merchant", self.$route.params.id).then(function(merchant){
+                        self.merchant = merchant;
+                    })
                 } else {
-                    self.back();
+                    self.merchant = new Merchant({name:'', logo: '', introduction: ''});
                 }
+            },
+
+            onSave: function() {
+                var self = this;
+
+                if (self.merchant.logo.length == 0) {
+                    self.showToast("请上传LOGO");
+                } else {
+                    self.$validate().then(function (success) {
+                        if (success) {
+                            self.wait(api.save(self.merchant)).then(function(m){
+                                self.back();
+                            })
+                        }
+                    });  
+                }
+            },
+
+            onUploadLogo: function() {
+                var self = this;
+
+                self.wait(self.$channel.chooseImage()).then(function(url){
+                    self.merchant.logo = url;
+                })
             }
         },
 
         components: {
-            'base-layout': BaseLayout
+            'layout': Layout
         }
     }
 </script>
