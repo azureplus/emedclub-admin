@@ -7,15 +7,13 @@
             <mu-th>ID</mu-th>
             <mu-th>商标</mu-th>
             <mu-th>名称</mu-th>
-            <mu-th>介绍</mu-th>
           </mu-tr>
         </mu-thead>
         <mu-tbody>
             <mu-tr v-for="merchant in merchants">
-                <mu-td><img src="{{merchant.id}}" width=100 height=100/></mu-td>
-                <mu-td>{{merchant.logo}}</mu-td>
+                <mu-td>{{merchant.id}}</mu-td>
+                <mu-td><img src="{{merchant.logo}}" width=100 height=100/></mu-td>
                 <mu-td>{{merchant.name}}</mu-td>
-                <mu-td>{{merchant.introduction}}/mu-td>
             </mu-tr>
         </mu-tbody>
       </mu-table>
