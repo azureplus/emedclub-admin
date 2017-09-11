@@ -44,9 +44,8 @@
 
                 Api.count("Merchant").then(function(total){
                     self.total = total
-                    selr.current = 1
-
-                    self.wait(self.loadData(0))
+                    self.current = 1
+                    self.wait(self.loadData())
                 })
             },
 
@@ -55,25 +54,22 @@
             },
 
             onRefresh() {
-                this.wait(this.loadData(0))
+                this.wait(this.loadData())
             },
 
             onView: function(index) {
                 this.goto("/merchant/view/" + this.merchants[index].id)
             },
 
-            onUnselectAll: funtion() {
-                this.$refs.table.unSelectAll()
-            },
-
             onPage(page) {
-                this.wait(this.loadData((page - 1) * 20 ))
+                this.current = page;
+                this.wait(this.loadData())
             },
 
-            loadData: function(offset) {
+            loadData: function() {
                 var self = this;
 
-                return api.query("Merchant", {}, {limit: 20, offset: offset}).then(function(merchants){
+                return api.query("Merchant", {}, {limit: 20, offset: 20 * (self.current - 1)}).then(function(merchants){
                     self.merchants = merchants
                 })
             }
