@@ -18,7 +18,7 @@
             </mu-tbody>
             <mu-tbody>
                 <mu-td>简介</mu-td>
-                <mu-td>{{merchant.introduction}}</mu-td>
+                <mu-td v-html="merchant.introduction"></mu-td>
             </mu-tbody>      
         </mu-table>
     </layout>
