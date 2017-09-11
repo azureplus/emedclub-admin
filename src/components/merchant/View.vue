@@ -1,28 +1,41 @@
 <template>
-    <base-layout :progressing="refreshing" :toast="toast">
-    </base-layout>
+    <layout :progressing="refreshing" :toast="toast">
+        <mu-raised-button label="修改" @click="onEdit"/>
+        <mu-raised-button label="删除" @click="onDestroy"/>
+
+        <mu-table multiSelectable enableSelectAll ref="table">
+            <mu-tbody>
+                <mu-td>ID</mu-td>
+                <mu-td>{{merchant.id}}</mu-td>
+            </mu-tbody>
+            <mu-tbody>
+                <mu-td>名称</mu-td>
+                <mu-td>{{merchant.name}}</mu-td>
+            </mu-tbody>
+            <mu-tbody>
+                <mu-td>商标</mu-td>
+                <mu-td><img src="{{merchant.logo}}" width=100 height=100/></mu-td>
+            </mu-tbody>
+            <mu-tbody>
+                <mu-td>简介</mu-td>
+                <mu-td>{{merchant.introduction}}</mu-td>
+            </mu-tbody>      
+        </mu-table>
+    </layout>
 </template>
 
 <script>
-    import BaseLayout from '../BaseLayout'
+    import Layout from '../Layout'
     import api from '../../api'
     import { mapGetters, mapActions } from 'vuex'
     import Mixin from '../../mixin'
-    import Merchant from '../../model/Merchant'
 
     export default {
         mixins: [Mixin],
 
-        computed: mapGetters({
-            me: 'me'
-        }),
-
         data() {
             return {
                 merchant: null,
-                activities: [],
-                title: '',
-                sheet: false
             }
         },
 
@@ -30,18 +43,8 @@
             onInitialize: function() {
                 var self = this;
 
-                self.merchant = null;
-                self.activities = [];
-                self.title = "商户"
-
                 api.queryOne("Merchant", self.$route.params.id).then(function(model){
                     self.merchant = model;
-
-                    self.title = self.merchant.name
-
-                    self.wait(api.query("Activity", {merchant_id: model.id})).then(function(activities){
-                        self.activities = activities;
-                    });
                 })
             },
 
@@ -49,33 +52,20 @@
                 this.onInitialize();
             },
 
-            closeSheet () {
-                this.sheet = false
-            },
-
-            openSheet() {
-                this.sheet = true;
-            },
-
-			onNewActivity: function(category) {
-				this.sheet = false;
-				this.goto("/activity/new?category=" + category + "&merchant_id=" + this.merchant.id);
-			},
-
-            onCopyMerchant: function() {
-                this.$router.replace({
-                    path: "/merchant/new", 
-                    query: {name: this.merchant.name, logo: this.merchant.logo, area: this.merchant.area}
+            onDestroy: function() {
+                var self = this
+                self.wait(api.destroy(self.merchant)).then(function(){
+                    self.back()
                 })
             },
 
-            onShowMap: function() {
-                this.$router.push({path: "/path", query:{address: this.merchant.address}})
+            onEdit: function() {
+                this.goto("/merchant/edit/" + this.merchant.id)
             }
         },
 
         components: {
-            'base-layout': BaseLayout,
+            'layout': Layout,
         }
     }
 </script>
