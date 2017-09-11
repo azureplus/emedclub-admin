@@ -16,7 +16,7 @@
                     </mu-paper>
                 </mu-list-item>
                 <mu-list-item>
-                    <mu-text-field label="介绍" v-model="merchant.introduction" multiLine :rows="10" :rowsMax="60" fullWidth />
+                    <vue-editor v-model="merchant.introduction"></vue-editor>
                 </mu-list-item>
                 <mu-list-item>
                     <mu-raised-button label="保存" fullWidth @click="onSave"/>
@@ -31,6 +31,7 @@
     import api from '../../api'
     import SimpleVueValidation from 'simple-vue-validator';
     import Mixin from '../../mixin'
+    import { VueEditor } from 'vue2-editor'
 
     export default {
         mixins: [Mixin],
