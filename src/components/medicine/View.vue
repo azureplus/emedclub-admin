@@ -1,10 +1,10 @@
 <template>
-    <baselayout :progressing="refreshing" :toast="toast">
-    </baselayout>
+    <layout :progressing="refreshing" :toast="toast">
+    </layout>
 </template>
 
 <script>
-    import BaseLayout from '../BaseLayout'
+    import Layout from '../Layout'
     import api from '../../api'
     import { mapGetters, mapActions } from 'vuex'
     import Mixin from '../../mixin'
@@ -24,7 +24,7 @@
         },
 
         components: {
-            'baselayout': BaseLayout,
+            'layout': Layout,
         }
     }
 </script>

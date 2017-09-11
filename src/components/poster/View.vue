@@ -1,5 +1,5 @@
 <template>
-    <base-layout :progressing="refreshing" :toast="toast">
+    <layout :progressing="refreshing" :toast="toast">
         <mu-appbar :title="title" slot="header">
             <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="onBack"/>
             <mu-icon-button icon="content_copy" slot="right" @click="onCopyMerchant" />
@@ -31,11 +31,11 @@
 			<mu-raised-button label="发布满折活动" default @click="onNewActivity(1)" style="width:100%;height:45px"/>
             <mu-raised-button label="再想一下" @click="closeSheet" style="width:100%;height:45px"/>
         </mu-bottom-sheet>
-    </base-layout>
+    </layout>
 </template>
 
 <script>
-    import BaseLayout from '../BaseLayout'
+    import Layout from '../Layout'
     import api from '../../api'
     import { mapGetters, mapActions } from 'vuex'
     import Mixin from '../../mixin'
@@ -107,7 +107,7 @@
         },
 
         components: {
-            'base-layout': BaseLayout,
+            'layout': Layout,
             'activity-list': ActivityList
         }
     }

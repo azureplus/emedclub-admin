@@ -1,10 +1,10 @@
 <template>
-    <base-layout :progressing="refreshing" :toast="toast" :loading="loading" @on-load-more="onLoadMore">
-    </base-layout>
+    <layout :progressing="refreshing" :toast="toast" :loading="loading" @on-load-more="onLoadMore">
+    </layout>
 </template>
 
 <script>
-    import BaseLayout from '../BaseLayout'
+    import Layout from '../Layout'
     import api from '../../api'
     import { mapGetters, mapActions } from 'vuex'
     import Mixin from '../../mixin'
@@ -82,7 +82,7 @@
         },
 
         components: {
-            'base-layout': BaseLayout,
+            'layout': Layout,
         }
     }
 </script>

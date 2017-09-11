@@ -1,5 +1,5 @@
 <template>
-    <baselayout :progressing="refreshing" :toast="toast">
+    <layout :progressing="refreshing" :toast="toast">
         <mu-appbar :title="title" slot="header">
             <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="back"/>
             <mu-icon-button icon="help" slot="right" @click="onShowRule"/>
@@ -75,11 +75,11 @@
                 </mu-list-item>
             </mu-list>
         </mu-content-block>
-    </baselayout>
+    </layout>
 </template>
 
 <script>
-    import BaseLayout from '../BaseLayout'
+    import Layout from '../Layout'
     import Contract from '../../model/Contract'
     import Contractor from '../../model/Contractor'
     import Discount from '../../model/Discount'
@@ -279,7 +279,7 @@
         },
 
         components: {
-            'baselayout': BaseLayout
+            'layout': Layout
         }
     }
 </script>

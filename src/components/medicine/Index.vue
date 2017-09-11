@@ -1,10 +1,10 @@
 <template>
-    <base-layout>
-    </base-layout>
+    <layout>
+    </layout>
 </template>
 
 <script>
-	import BaseLayout from '../BaseLayout'
+	import Layout from '../Layout'
 	import api from '../../api'
 	import { mapGetters, mapActions } from 'vuex'
 	import Mixin from '../../mixin'
@@ -47,7 +47,7 @@
 		},
 
     	components: {
-      		'base-layout': BaseLayout,
+      		'layout': Layout,
     	}
 	}
 </script>

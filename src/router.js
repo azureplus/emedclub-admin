@@ -22,11 +22,6 @@ export default new Router({
       name: 'login',
       component: require('./components/account/Login.vue'),
     },
-    {
-      path: '/reset',
-      name: 'reset',
-      component: require('./components/account/Register.vue'),
-    },
 
     { 
       path: '/activity/index',

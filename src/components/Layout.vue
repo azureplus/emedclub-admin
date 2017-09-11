@@ -1,89 +1,123 @@
 <template>
-    <base-layout :progressing="refreshing" :toast="toast" :loading="loading" @on-load-more="onLoadMore">
-        <mu-appbar title="医麦客" slot="header">
-            <mu-icon-button icon="add" slot="right" @click="onAdd" />
-            <mu-icon-button v-if="refresh" icon="refresh" slot="right" @click="onRefresh" />
-            <mu-icon-button v-if="action && action.length > 0" :icon="action" slot="right" @click="onAction" />
-        </mu-appbar>
+    <div>
+        <div ref="header">
+            <mu-appbar title="医麦客管理后台"></mu-appbar>
+        </div>
 
-        <slot></slot>
-    </base-layout>
+        <mu-linear-progress v-show="progressing" :size="3"/>
+
+        <div class="sidebar">
+            <mu-list @change="onModelIndex" :value="activeIndex">
+                <mu-list-item title="企业" value="/merchant/index">
+                    <mu-icon slot="left" value="drafts"/>
+                </mu-list-item>
+                <mu-list-item title="药品" value="/medicine/index">
+                    <mu-icon slot="left" value="drafts"/>
+                </mu-list-item>
+                <mu-list-item title="资讯" value="/information/index">
+                    <mu-icon slot="left" value="drafts"/>
+                </mu-list-item>
+                <mu-list-item title="活动" value="/activity/index">
+                    <mu-icon slot="left" value="drafts"/>
+                </mu-list-item>
+                <mu-list-item title="课程" value="/lesson/index">
+                    <mu-icon slot="left" value="drafts"/>
+                </mu-list-item>
+            </mu-list>
+        </div>
+        
+        <div ref="content" class="content">
+            <mu-toast v-if="toast && toast.length > 0" :message="toast" class="centered"/>
+            <slot></slot>
+            <mu-infinite-scroll :scroller="scroller" :loading="loading" @load="onLoadMore"/>
+        </div>
+
+        <div ref="footer">
+            <slot name="footer"></slot>
+        </div>
+
+        <mu-bottom-sheet :open="destroySheet" @close="closeDestroySheet">
+            <mu-raised-button label="确定要删除" primary @click="onDestroy" style="width:100%;height:45px"/>
+            <mu-raised-button label="再想一下" @click="closeDestroySheet" style="width:100%;height:45px"/>
+        </mu-bottom-sheet>
+    </div>
 </template>
 
 <script>
-    import BaseLayout from './BaseLayout'
-
     export default {
-        props: ['refreshing', 'toast', 'loading', 'action', 'refresh'],
+        props: ['progressing', 'toast', 'loading', 'destroySheet'],
 
-        data() {
+        data () {
             return {
-                bottomNav: 'home',
+                scroller: null,
+
+                activeIndex: '',
             }
         },
 
-        mounted(){
-            // 当created函数时监测路由信息,防止页面刷新tab高亮错误
-            var tmpArr = this.$route.path.split('/');
-            this.bottomNav = tmpArr[1];
+        mounted () {
+            var header = this.$refs["header"]
+            var footer = this.$refs["footer"]
+            var content = this.$refs["content"]
+
+            this.scroller = content
+
+            setTimeout(function(){
+                var height = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - header.offsetHeight;
+                if (footer.childNodes.length > 0) {
+                    content.style.height = (height - footer.childNodes[0].offsetHeight) + "px";
+                } else {
+                    content.style.height = height + "px";
+                }
+            }, 10)
         },
 
         methods: {
-            onAdd() {
-                this.$emit("on-add");
+            onLoadMore: function() {
+                 this.$emit("on-load-more");
             },
 
-            onAction() {
-                this.$emit("on-action", this.action);
+            onModelIndex: function(val) {
+                this.activeIndex = val
+                this.$router.push({path: val});
             },
 
-            onRefresh() {
-                this.$emit("on-refresh");
+            closeDestroySheet: function() {
+                this.$emit("on-cancel-destroy")
             },
 
-            onLoadMore() {
-                this.$emit("on-load-more");
+            onDestroy: function() {
+                this.$emit("on-destroy")
             }
-        },
-
-        components: {
-          'base-layout': BaseLayout
         }
     }
 </script>
 
 <style lang="less" rel="stylesheet/less">
-  @import "../assets/theme.less";
+    @import "../assets/theme.less";
 
-  /*底部样式*/
-  .footr_box {
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    background: #fff;
-    z-index: 11;
-    a {
-      color: #333;
+    .centered {
+      position: fixed !important;
+      top: 50%;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
     }
-    .list-inline {
-      display: flex;
-      width: 100%;
-      padding-top: 10px;
-      li {
-        flex: 1;
-        >a.active {
-          color: #d1506d;
-        }
-        >a {
-          position: relative;
-          z-index: 2;
-          display: block;
-          img {
-            width: 30%;
-          }
-        }
-      }
+
+    .sidebar {
+        max-width: 20%;
+        float: left;
+        background-color: white;
+        margin-bottom: -4000px;
+        padding-bottom: 4000px;
     }
-  }  
+
+    .content{
+        width: 80%;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        display: inline-block;
+        float: right;
+        padding: 10px 20px;
+        background-color: rgba(0, 0, 0, 0) 
+    }
 </style>

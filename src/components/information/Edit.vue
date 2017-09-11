@@ -1,5 +1,5 @@
 <template>
-    <baselayout :progressing="refreshing" :toast="toast">
+    <layout :progressing="refreshing" :toast="toast">
         <mu-appbar title="新建品牌" slot="header">
             <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="back"/>
         </mu-appbar>  
@@ -21,11 +21,11 @@
                 </mu-list-item>
             </mu-list>
         </mu-content-block>
-    </baselayout>
+    </layout>
 </template>
 
 <script>
-    import BaseLayout from '../BaseLayout'
+    import Layout from '../Layout'
     import Brand from '../../model/Brand'
     import api from '../../api'
     import { mapGetters, mapActions } from 'vuex'
@@ -86,7 +86,7 @@
         },
 
         components: {
-            'baselayout': BaseLayout
+            'layout': Layout
         }
     }
 </script>

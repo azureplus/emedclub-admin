@@ -1,5 +1,5 @@
 <template>
-    <baselayout :progressing="refreshing" :toast="toast">
+    <layout :progressing="refreshing" :toast="toast">
         <mu-appbar :title="title" slot="header">
             <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="back"/>
         </mu-appbar>  
@@ -57,11 +57,11 @@
                 </mu-list-item>
             </mu-list>
         </mu-content-block>
-    </baselayout>
+    </layout>
 </template>
 
 <script>
-    import BaseLayout from '../BaseLayout'
+    import Layout from '../Layout'
     import Activity from '../../model/Activity'
     import Favorable from '../../model/Favorable'
     import api from '../../api'
@@ -226,7 +226,7 @@
         },
 
         components: {
-            'baselayout': BaseLayout
+            'layout': Layout
         }
     }
 </script>

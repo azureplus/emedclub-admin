@@ -1,5 +1,5 @@
 <template>
-    <baselayout :progressing="refreshing" :toast="toast">
+    <layout :progressing="refreshing" :toast="toast">
         <mu-appbar title="活动评价" slot="header">
             <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="back"/>
         </mu-appbar>  
@@ -19,11 +19,11 @@
                 </mu-list-item>
             </mu-list>
         </mu-content-block>
-    </baselayout>
+    </layout>
 </template>
 
 <script>
-    import BaseLayout from '../BaseLayout'
+    import Layout from '../Layout'
     import api from '../../api'
     import { mapGetters, mapActions } from 'vuex'
     import Mixin from '../../mixin'
@@ -77,7 +77,7 @@
         },
 
         components: {
-            'baselayout': BaseLayout,
+            'layout': Layout,
             'star-rating': StarRating
         }
     }

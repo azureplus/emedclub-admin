@@ -1,23 +1,25 @@
 <template>
-    <layout :progressing="refreshing" :toast="toast" @on-add="onAdd" @on-refresh="onRefresh">
-        <mu-table ref="table" selectable="false" showCheckbox="false" rowClick="onView">
-            <mu-thead>
-                <mu-tr>
-                    <mu-th>ID</mu-th>
-                    <mu-th>商标</mu-th>
-                    <mu-th>名称</mu-th>
-                </mu-tr>
-            </mu-thead>
-            <mu-tbody>
-                <mu-tr v-for="merchant in merchants" @>
-                    <mu-td>{{merchant.id}}</mu-td>
-                    <mu-td><img src="{{merchant.logo}}" width=100 height=100/></mu-td>
-                    <mu-td>{{merchant.name}}</mu-td>
-                </mu-tr>
-            </mu-tbody>
-        </mu-table>
-        
-        <mu-pagination :total="total" :current="current" @pageChange="onPage"></mu-pagination>
+    <layout :progressing="refreshing" :toast="toast">
+        <mu-content-block>
+            <mu-raised-button label="增加" @click="onAdd"/>
+
+            <mu-table ref="table" :showCheckbox="false" @rowClick="onView">
+                <mu-thead>
+                    <mu-tr>
+                        <mu-th>商标</mu-th>
+                        <mu-th>名称</mu-th>
+                    </mu-tr>
+                </mu-thead>
+                <mu-tbody>
+                    <mu-tr v-for="merchant in merchants" :key="merchant.id">
+                        <mu-td><img :src="merchant.logo" width=100 height=100/></mu-td>
+                        <mu-td>{{merchant.name}}</mu-td>
+                    </mu-tr>
+                </mu-tbody>
+            </mu-table>
+            
+            <mu-pagination :total="total" :current="current" @pageChange="onPage"></mu-pagination>
+        </mu-content-block>
     </layout>
 </template>
 
@@ -42,7 +44,7 @@
             onInitialize() {
                 var self = this;
 
-                Api.count("Merchant").then(function(total){
+                api.count("Merchant").then(function(total){
                     self.total = total
                     self.current = 1
                     self.wait(self.loadData())
@@ -55,6 +57,10 @@
 
             onRefresh() {
                 this.wait(this.loadData())
+            },
+
+            onAdd: function(index) {
+                this.goto("/merchant/new")
             },
 
             onView: function(index) {

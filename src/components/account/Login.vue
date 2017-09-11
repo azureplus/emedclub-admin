@@ -14,10 +14,6 @@
                 <mu-list-item>
                     <mu-raised-button label="进入医麦客管理后台" fullWidth @click="onLogin"/>
                 </mu-list-item>
-
-                <mu-list-item>
-                    <mu-flat-button label="重置密码" primary @click="onReset" style="float:right"/>
-                </mu-list-item>
             </mu-list>
         </mu-content-block>
     </div>
