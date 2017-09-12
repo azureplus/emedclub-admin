@@ -17,7 +17,7 @@
                     <mu-tr v-for="medicine in medicines" :key="medicine.id">
                         <mu-td>{{merchant.merchant}}</mu-td>
                         <mu-td>{{merchant.name}}</mu-td>
-						<mu-td>{{merchant.category}}</mu-td>
+						<mu-td>{{merchant.categoryName}}</mu-td>
 						<mu-td>{{merchant.target}}</mu-td>
 						<mu-td>{{merchant.stateName}}</mu-td>
                     </mu-tr>
