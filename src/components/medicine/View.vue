@@ -28,7 +28,27 @@
                 <mu-tbody>
                     <mu-td>名称</mu-td>
                     <mu-td>{{merchant.name}}</mu-td>
-                </mu-tbody>     
+                </mu-tbody> 
+                <mu-tbody>
+                    <mu-td>靶向</mu-td>
+                    <mu-td>{{merchant.target}}</mu-td>
+                </mu-tbody> 
+                <mu-tbody>
+                    <mu-td>适应症</mu-td>
+                    <mu-td>{{merchant.indication}}</mu-td>
+                </mu-tbody> 
+                <mu-tbody>
+                    <mu-td>临床前研究</mu-td>
+                    <mu-td>{{merchant.preclinical_study}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>临床申报</mu-td>
+                    <mu-td>{{merchant.clinical_declaration}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>临床I期研究</mu-td>
+                    <mu-td>{{merchant.clinical_1_study}}</mu-td>
+                </mu-tbody>  
             </mu-table>
         </mu-content-block>
     </layout>
