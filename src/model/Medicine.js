@@ -1,47 +1,25 @@
 /*
-
 	Medicine: {
-
 		merchant: s,
-
 	    country: s,
-
         institute: s,
-
         scientist: s,
-
         domain: s,
-
         name: s,
-
         category: s,
-
         target: s,
-
         indication: s,
-
         preclinical_study: s,
-
         clinical_declaration: s,
-
         clinical_approval: dt,
-
         clinical_trial_no: s,
-
         clinical_1_study: s,
-
         clinical_2_study: s,
-
         clinical_3_study: s,
-
         listing_application: dt,
-
         listing_approval: dt,
-
         state: n,
-
-        sales: n,           
-
+        sales: n,
 	},
 
 */
