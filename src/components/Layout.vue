@@ -17,12 +17,6 @@
                 <mu-list-item title="资讯" value="/information/index">
                     <mu-icon slot="left" value="drafts"/>
                 </mu-list-item>
-                <mu-list-item title="活动" value="/activity/index">
-                    <mu-icon slot="left" value="drafts"/>
-                </mu-list-item>
-                <mu-list-item title="课程" value="/lesson/index">
-                    <mu-icon slot="left" value="drafts"/>
-                </mu-list-item>
             </mu-list>
         </div>
         

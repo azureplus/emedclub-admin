@@ -1,5 +1,30 @@
 <template>
-    <layout :progressing="refreshing" :toast="toast" :loading="loading" @on-load-more="onLoadMore">
+    <layout :progressing="refreshing" :toast="toast">
+        <mu-content-block>
+            <mu-raised-button label="增加" @click="onAdd"/>
+
+            <mu-table ref="table" :showCheckbox="false" @rowClick="onView">
+                <mu-thead>
+                    <mu-tr>
+                        <mu-th>照片</mu-th>
+                        <mu-th>标题</mu-th>
+                        <mu-th>分类</mu-th>
+                        <mu-th>分类</mu-th>
+                        <mu-th>价格</mu-th>
+                    </mu-tr>
+                </mu-thead>
+                <mu-tbody>
+                    <mu-tr v-for="information in informations" :key="information.id">
+                        <mu-td><img :src="information.media" width=100 height=100/></mu-td>
+                        <mu-td>{{information.title}}</mu-td>
+                        <mu-td>{{information.category}}</mu-td>
+                        <mu-td>{{information.price}}</mu-td>
+                    </mu-tr>
+                </mu-tbody>
+            </mu-table>
+            
+            <mu-pagination :total="total" :current="current" @pageChange="onPage"></mu-pagination>
+        </mu-content-block>
     </layout>
 </template>
 
@@ -12,71 +37,51 @@
     export default {
         mixins: [Mixin],
 
-        computed: mapGetters({
-            me: 'me'
-        }),
-
         data () {
             return {
-                brands: [],
-                loading: false,
-                hasMore: true,
-                title: '我的品牌'
+                informations: [],
+                total: 0,
+                current: 1,
             }
         },
 
         methods: {
             onInitialize() {
-                this.wait(this.loadData(0))
+                var self = this;
 
-                if (this.me.role == 1) {
-                    this.title = "所有品牌"
-                } else {
-                    this.title = "我的品牌"
-                }
+                api.count("Information").then(function(total){
+                    self.total = total
+                    self.current = 1
+                    self.wait(self.loadData())
+                })
             },
 
             onUpdate() {
                 this.onInitialize()
             },
-            
-            onRefresh: function() {
-                this.wait(this.loadData(0))
+
+            onRefresh() {
+                this.wait(this.loadData())
             },
 
-            onLoadMore: function() {
+            onAdd: function(index) {
+                this.goto("/information/new")
+            },
+
+            onView: function(index) {
+                this.goto("/information/view/" + this.informations[index].id)
+            },
+
+            onPage(page) {
+                this.current = page;
+                this.wait(this.loadData())
+            },
+
+            loadData: function() {
                 var self = this;
 
-                if (self.loading === false && self.hasMore) {
-                    self.loading = true;
-                    self.loadData(self.brands.length).then(function(){
-                        self.loading = false;
-                    }, function(err){
-                        self.loading = false;
-                    })
-                }
-            },
-
-            onNewBrand: function() {
-                this.goto("/brand/new")
-            },
-
-            loadData: function(offset) {
-                var self = this;
-
-                if (self.me.role == 1) {
-                    var conditions = {};
-                } else {
-                    var conditions = {customer_id: self.me.id};
-                }
-                return api.query("Brand", conditions, {limit:20, offset:offset}).then(function(brands){
-                    if (offset > 0) {
-                        self.brands = self.brands.concat(brands)
-                    } else {
-                        self.brands = brands
-                    }
-
-                    self.hasMore = brands.length == 20;
+                return api.query("Information", {}, {limit: 20, offset: 20 * (self.current - 1)}).then(function(informations){
+                    self.informations = informations
                 })
             }
         },

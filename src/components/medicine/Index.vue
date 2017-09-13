@@ -15,11 +15,11 @@
                 </mu-thead>
                 <mu-tbody>
                     <mu-tr v-for="medicine in medicines" :key="medicine.id">
-                        <mu-td>{{merchant.merchant}}</mu-td>
-                        <mu-td>{{merchant.name}}</mu-td>
-						<mu-td>{{merchant.categoryName}}</mu-td>
-						<mu-td>{{merchant.target}}</mu-td>
-						<mu-td>{{merchant.stateName}}</mu-td>
+                        <mu-td>{{medicine.merchant}}</mu-td>
+                        <mu-td>{{medicine.name}}</mu-td>
+						<mu-td>{{medicine.category}}</mu-td>
+						<mu-td>{{medicine.target}}</mu-td>
+						<mu-td>{{medicine.stateName}}</mu-td>
                     </mu-tr>
                 </mu-tbody>
             </mu-table>

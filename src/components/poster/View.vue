@@ -1,36 +1,88 @@
 <template>
-    <layout :progressing="refreshing" :toast="toast">
-        <mu-appbar :title="title" slot="header">
-            <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="onBack"/>
-            <mu-icon-button icon="content_copy" slot="right" @click="onCopyMerchant" />
-        </mu-appbar>
+    <layout :progressing="refreshing" :toast="toast" :destroySheet="destroySheet" @on-destroy="onDestroy" @on-cancel-destroy="onCancelDestroy">
+        <mu-content-block>
+            <mu-raised-button label="修改" @click="onEdit"/>
+            <mu-raised-button label="删除" @click="canDestroy"/>
 
-        <mu-row gutter v-if="merchant" style="width:96%;margin-left:2%">
-            <mu-col width="25">
-                <img :src="merchant.logo" style="width:100%;margin-left:10px;margin-top:10px;"/>
-            </mu-col>
-            <mu-col width="75">
-                <div style="margin-top:10px;margin-left:10px;">
-                    <p style="font-size:larger;">{{merchant.title}}<mu-icon value="map" style="float: right;" @click="onShowMap"/></p>
-                    <p style="padding-bottom:2px">{{merchant.categoryName}}</p>
-                    <p style="padding-bottom:2px">{{merchant.address}}</p>
-                </div>
-            </mu-col>
-        </mu-row>
-
-        <mu-divider />
-        <mu-list>
-            <mu-list-item>
-                <mu-raised-button label="发布活动" fullWidth @click="openSheet" v-if="merchant"/>
-            </mu-list-item>                       
-        </mu-list>
-        <activity-list :activities="activities"/>
-
-		<mu-bottom-sheet :open="sheet" @close="closeSheet">
-            <mu-raised-button label="发布满减活动" default @click="onNewActivity(0)" style="width:100%;height:45px"/>
-			<mu-raised-button label="发布满折活动" default @click="onNewActivity(1)" style="width:100%;height:45px"/>
-            <mu-raised-button label="再想一下" @click="closeSheet" style="width:100%;height:45px"/>
-        </mu-bottom-sheet>
+            <mu-table multiSelectable enableSelectAll ref="table" v-if="medicine">
+                <mu-tbody>
+                    <mu-td style="width:20%">ID</mu-td>
+                    <mu-td>{{medicine.id}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>医药公司</mu-td>
+                    <mu-td>{{medicine.merchant}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>所属国家</mu-td>
+                    <mu-td>{{medicine.country}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>合作机构</mu-td>
+                    <mu-td>{{medicine.institute}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>首席科学家</mu-td>
+                    <mu-td>{{medicine.scientist}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>所属领域</mu-td>
+                    <mu-td>{{medicine.domain}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>药品名称</mu-td>
+                    <mu-td>{{medicine.name}}</mu-td>
+                </mu-tbody> 
+                <mu-tbody>
+                    <mu-td>药物靶</mu-td>
+                    <mu-td>{{medicine.target}}</mu-td>
+                </mu-tbody> 
+                <mu-tbody>
+                    <mu-td>适应症</mu-td>
+                    <mu-td>{{medicine.indication}}</mu-td>
+                </mu-tbody> 
+                <mu-tbody>
+                    <mu-td>临床前研究</mu-td>
+                    <mu-td>{{medicine.preclinical_study}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>临床申报</mu-td>
+                    <mu-td>{{medicine.clinical_declaration}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>临床批准</mu-td>
+                    <mu-td>{{medicine.clinical_approval}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>临床I期研究</mu-td>
+                    <mu-td>{{medicine.clinical_1_study}}</mu-td>
+                </mu-tbody>  
+                <mu-tbody>
+                    <mu-td>临床II期研究</mu-td>
+                    <mu-td>{{medicine.clinical_2_study}}</mu-td>
+                </mu-tbody> 
+                <mu-tbody>
+                    <mu-td>临床III期研究</mu-td>
+                    <mu-td>{{medicine.clinical_3_study}}</mu-td>
+                </mu-tbody> 
+                <mu-tbody>
+                    <mu-td>上市申请</mu-td>
+                    <mu-td>{{medicine.listing_application}}</mu-td>
+                </mu-tbody> 
+                <mu-tbody>
+                    <mu-td>上市日期</mu-td>
+                    <mu-td>{{medicine.listing_approval}}</mu-td>
+                </mu-tbody> 
+                <mu-tbody>
+                    <mu-td>销售数据</mu-td>
+                    <mu-td>{{medicine.sales}}</mu-td>
+                </mu-tbody> 
+                <mu-tbody>
+                    <mu-td>研究状态</mu-td>
+                    <mu-td>{{medicine.stateName}}</mu-td>
+                </mu-tbody> 
+            </mu-table>
+        </mu-content-block>
     </layout>
 </template>
 
@@ -39,22 +91,15 @@
     import api from '../../api'
     import { mapGetters, mapActions } from 'vuex'
     import Mixin from '../../mixin'
-    import Merchant from '../../model/Merchant'
-    import ActivityList from '../activity/List'
 
     export default {
         mixins: [Mixin],
 
-        computed: mapGetters({
-            me: 'me'
-        }),
-
         data() {
             return {
-                merchant: null,
-                activities: [],
-                title: '',
-                sheet: false
+                medicine: null,
+
+                destroySheet: false,
             }
         },
 
@@ -62,18 +107,8 @@
             onInitialize: function() {
                 var self = this;
 
-                self.merchant = null;
-                self.activities = [];
-                self.title = "商户"
-
-                api.queryOne("Merchant", self.$route.params.id).then(function(model){
-                    self.merchant = model;
-
-                    self.title = self.merchant.name
-
-                    self.wait(api.query("Activity", {merchant_id: model.id})).then(function(activities){
-                        self.activities = activities;
-                    });
+                api.queryOne("Medicine", self.$route.params.id).then(function(model){
+                    self.medicine = model;
                 })
             },
 
@@ -81,34 +116,30 @@
                 this.onInitialize();
             },
 
-            closeSheet () {
-                this.sheet = false
+            canDestroy: function() {
+                this.destroySheet = true;
             },
 
-            openSheet() {
-                this.sheet = true;
+            onCancelDestroy: function() {
+                this.destroySheet = false;
             },
 
-			onNewActivity: function(category) {
-				this.sheet = false;
-				this.goto("/activity/new?category=" + category + "&merchant_id=" + this.merchant.id);
-			},
+            onDestroy: function() {
+                var self = this
 
-            onCopyMerchant: function() {
-                this.$router.replace({
-                    path: "/merchant/new", 
-                    query: {name: this.merchant.name, logo: this.merchant.logo, area: this.merchant.area}
+                self.destroySheet = false;
+                self.wait(api.destroy(self.medicine)).then(function(){
+                    self.back()
                 })
             },
 
-            onShowMap: function() {
-                this.$router.push({path: "/path", query:{address: this.merchant.address}})
-            }
+            onEdit: function() {
+                this.goto("/medicine/edit/" + this.medicine.id)
+            }          
         },
 
         components: {
             'layout': Layout,
-            'activity-list': ActivityList
         }
     }
 </script>

@@ -1,5 +1,28 @@
 <template>
-    <layout :progressing="refreshing" :toast="toast">
+    <layout :progressing="refreshing" :toast="toast" :destroySheet="destroySheet" @on-destroy="onDestroy" @on-cancel-destroy="onCancelDestroy">
+        <mu-content-block>
+            <mu-raised-button label="修改" @click="onEdit"/>
+            <mu-raised-button label="删除" @click="canDestroy"/>
+
+            <mu-table multiSelectable enableSelectAll ref="table" v-if="information">
+                <mu-tbody>
+                    <mu-td style="width:20%">ID</mu-td>
+                    <mu-td>{{information.id}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>标题</mu-td>
+                    <mu-td>{{information.title}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>照片</mu-td>
+                    <mu-td><img :src="information.media" width=100 height=100/></mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>内容</mu-td>
+                    <mu-td v-html="information.content"></mu-td>
+                </mu-tbody>   
+            </mu-table>
+        </mu-content-block>
     </layout>
 </template>
 
@@ -12,104 +35,47 @@
     export default {
         mixins: [Mixin],
 
-        computed: mapGetters({
-            me: 'me'
-        }),
-
-        data () {
+        data() {
             return {
-                title: '品牌',
-                brand: null,
-                merchants: [],
-                selected: [],
-                hasMore: true,
-                sheet: false,
-                destroySheet: false
+                information: null,
+
+                destroySheet: false,
             }
         },
 
         methods: {
-            onInitialize() {
+            onInitialize: function() {
                 var self = this;
 
-                self.merchants = [];
-                self.hasMore   = true;
-
-                api.queryOne("Brand", self.$route.params.id).then(function(brand){
-                    self.brand = brand
-
-                    self.title = brand.name
-
-                    self.wait(self.loadData())
+                api.queryOne("Information", self.$route.params.id).then(function(model){
+                    self.information = model;
                 })
             },
 
-            onUpdate() {
-                this.onInitialize()
+            onUpdate: function() {
+                this.onInitialize();
             },
 
-            onRefresh() {
-                this.wait(this.loadData())
-            },
-
-            closeSheet() {
-                this.sheet = false
-            },
-
-            openSheet() {
-                this.sheet = true;
-            },
-
-            closeDestroySheet() {
-                this.destroySheet = false
-            },
-
-            openDestroySheet() {
+            canDestroy: function() {
                 this.destroySheet = true;
             },
 
-            onNewMerchant() {
-                this.goto("/merchant/new?brand_id=" + this.brand.id)
+            onCancelDestroy: function() {
+                this.destroySheet = false;
             },
 
-            onNewActivity(category) {
-                this.sheet = false;
-
-                this.$router.push({ path: '/activity/new', query: { category: category, merchant_id: this.selected }})
-            },
-
-            onDestroyBrand() {
-                var self = this;
+            onDestroy: function() {
+                var self = this
 
                 self.destroySheet = false;
-                self.wait(api.destroy(self.brand)).then(function(){
+                self.wait(api.destroy(self.information)).then(function(){
                     self.back()
                 })
             },
 
-            onChange(merchant) {
-                this.goto(merchant.url)
-            },
-
-            loadData() {
-                var self = this;
-
-                if (self.me.role == 1) {
-                    var conditions = {brand_id: self.brand.id}
-                } else {
-                    var conditions = {customer_id: self.me.id, brand_id: self.brand.id}
-                }
-
-                return api.query("Merchant", conditions).then(function(merchants){
-                    self.selected = []
-                    for(var i = 0; i < merchants.length; i++) {
-                        self.selected.push(merchants[i].id)
-                    }
-                    
-                    self.merchants = merchants
-                    self.hasMore   = merchants.length == 20;
-                })
-            }
+            onEdit: function() {
+                this.goto("/information/edit/" + this.information.id)
+            }          
         },
 
         components: {

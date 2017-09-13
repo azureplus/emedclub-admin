@@ -1,21 +1,19 @@
 <template>
     <layout :progressing="refreshing" :toast="toast">
-        <mu-appbar title="新建品牌" slot="header">
-            <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="back"/>
-        </mu-appbar>  
-
-        <mu-content-block v-if="brand">
+       <mu-content-block v-if="information">
             <mu-list>
                 <mu-list-item>
-                    <mu-text-field label="名称" v-model="brand.name" :errorText="validation.firstError('brand.name')" fullWidth />
+                    <mu-text-field label="标题" v-model="information.title" fullWidth />
                 </mu-list-item>
                 <mu-list-item>
                     <mu-paper :zDepth="1" style="width: 100px;height: 100px;margin: 0 auto;">
-                        <img :src="brand.logo" style="width: 100px;height: 100%" v-if="brand.logo" @click="onUploadLogo"/>
-                        <div style="text-align: center;padding-top: 40px;" v-else @click="onUploadLogo">LOGO</div>
+                        <img :src="information.media" style="width: 100px;height: 100%" v-if="information.media" @click="onUploadLogo"/>
+                        <div style="text-align: center;padding-top: 40px;" v-else  @click="onUploadLogo">照片</div>
                     </mu-paper>
                 </mu-list-item>
-
+                <mu-list-item>
+                    <vue-editor v-model="information.content"></vue-editor>
+                </mu-list-item>
                 <mu-list-item>
                     <mu-raised-button label="保存" fullWidth @click="onSave"/>
                 </mu-list-item>
@@ -26,49 +24,53 @@
 
 <script>
     import Layout from '../Layout'
-    import Brand from '../../model/Brand'
     import api from '../../api'
-    import { mapGetters, mapActions } from 'vuex'
     import SimpleVueValidation from 'simple-vue-validator';
     import Mixin from '../../mixin'
+    import Information from '../../model/Information'
+    import { VueEditor } from 'vue2-editor'
 
     export default {
         mixins: [Mixin],
 
-        data() {
+        data () {
             return {
-                brand: null
+                information: null,
             }
         },
 
-        computed: mapGetters({
-            me: 'me'
-        }),
-
         validators: {
-            'brand.name': function (value) {
+            'information.title': function (value) {
+                return SimpleVueValidation.Validator.value(value).required();
+            },
+
+            'information.content': function (value) {
                 return SimpleVueValidation.Validator.value(value).required();
             },
         },
 
         methods: {
-            onInitialize() {
-                this.brand = new Brand({customer_id: this.me.id, name: '', logo: '', state: 0});
-            },
-
-            onUpdate() {
-                this.onInitialize();
+            onInitialize: function() {
+                var self = this;
+                
+                if (self.$route.params.id) {
+                    api.queryOne("Information", self.$route.params.id).then(function(medicine){
+                        self.information = information;
+                    })
+                } else {
+                    self.information = Information.createDefault()
+                }
             },
 
             onSave: function() {
                 var self = this;
 
-                if (self.brand.logo.length == 0) {
-                    self.showToast("请上传LOGO");
+                if (self.information.media.length == 0) {
+                    self.showToast("请上传图片");
                 } else {
                     self.$validate().then(function (success) {
                         if (success) {
-                            self.wait(api.save(self.brand)).then(function(m){
+                            self.wait(api.save(self.information)).then(function(m){
                                 self.back();
                             })
                         }
@@ -80,13 +82,14 @@
                 var self = this;
 
                 self.wait(self.$channel.chooseImage()).then(function(url){
-                    self.brand.logo = url;
+                    self.information.media = url;
                 })
             }
         },
 
         components: {
-            'layout': Layout
+            'layout': Layout,
+            VueEditor
         }
     }
 </script>

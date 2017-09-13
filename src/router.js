@@ -24,32 +24,7 @@ export default new Router({
     },
 
     { 
-      path: '/activity/index',
-      name: 'list-activity',
-      component: require('./components/activity/Index.vue'),
-      meta: { requiresAuth: true }
-    },
-    { 
-      path: '/activity/new',
-      name: 'new_activity',
-      component: require('./components/activity/Edit.vue'),
-      meta: { requiresAuth: true }
-    },  
-    { 
-      path: '/activity/edit/:id',
-      name: 'edit_activity',
-      component: require('./components/activity/Edit.vue'),
-      meta: { requiresAuth: true }
-    }, 
-    { 
-      path: '/activity/view/:id',
-      name: 'show_activity',
-      component: require('./components/activity/View.vue'),
-      meta: { requiresAuth: true }
-    },
-
-    { 
-      path: '/medicine',
+      path: '/medicine/index',
       name: 'list-medicine',
       component: require('./components/medicine/Index.vue'),
       meta: { requiresAuth: true }
@@ -60,9 +35,14 @@ export default new Router({
       component: require('./components/medicine/Edit.vue'),
       meta: { requiresAuth: true }
     }, 
-
     { 
-      path: '/medicine/:id',
+      path: '/medicine/edit/:id',
+      name: 'edit-medicine',
+      component: require('./components/medicine/Edit.vue'),
+      meta: { requiresAuth: true }
+    }, 
+    { 
+      path: '/medicine/view/:id',
       name: 'view-medicine',
       component: require('./components/medicine/View.vue'),
       meta: { requiresAuth: true }

@@ -4,17 +4,19 @@ import Map from './util/map'
 import AxiosDataSource from './dao/AxiosDataSource'
 
 import Account      from './model/Account'
-import Activity     from './model/Activity'
 import Customer     from './model/Customer'
 import Merchant     from './model/Merchant'
+import Medicine     from './model/Medicine'
+import Information     from './model/Information'
 
 var url = Window.getBaseUrl();
 const _dao = new Dao(url, new AxiosDataSource());
 
 _dao.addSchema("Account", Account);
-_dao.addSchema("Activity", Activity)
 _dao.addSchema("Customer", Customer);
 _dao.addSchema("Merchant", Merchant);
+_dao.addSchema("Medicine", Medicine);
+_dao.addSchema("Information", Information);
 
 export default {
     getUrl() {
