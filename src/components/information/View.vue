@@ -14,13 +14,33 @@
                     <mu-td>{{information.title}}</mu-td>
                 </mu-tbody>
                 <mu-tbody>
+                    <mu-td>类别</mu-td>
+                    <mu-td>{{information.categoryName}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>价格</mu-td>
+                    <mu-td>{{information.price}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
                     <mu-td>照片</mu-td>
                     <mu-td><img :src="information.media" width=100 height=100/></mu-td>
                 </mu-tbody>
                 <mu-tbody>
                     <mu-td>内容</mu-td>
                     <mu-td v-html="information.content"></mu-td>
-                </mu-tbody>   
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>点赞</mu-td>
+                    <mu-td>{{information.total_likes}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>浏览</mu-td>
+                    <mu-td>{{information.total_viewrs}}</mu-td>
+                </mu-tbody>
+                <mu-tbody>
+                    <mu-td>评论</mu-td>
+                    <mu-td>{{information.total_comments}}</mu-td>
+                </mu-tbody>
             </mu-table>
         </mu-content-block>
     </layout>
