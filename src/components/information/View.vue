@@ -47,6 +47,35 @@
                     <mu-td>{{information.total_comments}}</mu-td>
                 </mu-tbody>
             </mu-table>
+
+            <mu-table ref="table" :showCheckbox="false"  v-if="information.category <= 1">
+                <mu-thead>
+                    <mu-tr>
+                        <mu-th>名称</mu-th>
+                        <mu-th>价格</mu-th>
+                        <mu-th></mu-th>
+                    </mu-tr>
+                </mu-thead>
+                <mu-tbody>
+                    <mu-tr v-for="ticket in information.tickes" :key="ticket.id">
+                        <mu-td>{{ticket.name}}</mu-td>
+                        <mu-td>{{ticket.price}}</mu-td>
+                        <mu-td><mu-raised-button label="删除" @click="onDestroyTicket(ticket)"/></mu-td>
+                    </mu-tr>
+                </mu-tbody>
+            </mu-table>
+
+            <mu-list>
+                <mu-list-item>
+                    <mu-text-field label="名称" v-model="name" fullWidth />
+                </mu-list-item>
+                <mu-list-item>
+                    <mu-text-field label="价格" v-model="price" type="number" fullWidth />
+                </mu-list-item>
+                <mu-list-item>
+                    <mu-raised-button label="增加门票" fullWidth @click="onAddTicket"/>
+                </mu-list-item>
+            </mu-list>
         </mu-content-block>
     </layout>
 </template>
@@ -65,6 +94,9 @@
                 information: null,
 
                 destroySheet: false,
+
+                name: '',
+                price: 100,
             }
         },
 
@@ -102,9 +134,34 @@
                 this.goto("/information/edit/" + this.information.id)
             },
 
-            onNewPoster: function{
+            onNewPoster: function(){
                 this.goto("/poster/new?entity_type=Information&entity_id=" + this.information.id)
-            }
+            },
+
+            onAddTicket: function() {
+                var self = this
+                var ticket = new Ticket()
+                ticket.information_id = self.information.id
+                ticket.name = self.name
+                ticket.price = self.price
+                api.save(ticket).then(function(){
+                    self.information.tickets.push(ticket)
+                })
+            },
+
+            onDestroyTicket: function(ticketId) {
+                var self = this
+
+                for(var i = 0; i < self.information.tickets.length; i++) {
+                    if (self.information.tickets[i].id === ticketId) {
+                        self.wait(api.destroy(ticket)).then(function(){
+                            self.information.tickets.splice(i, 1)
+                        })
+
+                        break;
+                    }
+                }
+            },
         },
 
         components: {
