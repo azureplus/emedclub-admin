@@ -6,12 +6,14 @@
                     <mu-tr>
                         <mu-th>图片</mu-th>
                         <mu-th>标题</mu-th>
+                        <mu-th>状态</mu-th>
                     </mu-tr>
                 </mu-thead>
                 <mu-tbody>
                     <mu-tr v-for="poster in posters" :key="poster.id">
                         <mu-td><img :src="poster.media" width=100 height=100/></mu-td>
                         <mu-td>{{poster.title}}</mu-td>
+                        <mu-td>{{poster.stateName}}</mu-td>
                     </mu-tr>
                 </mu-tbody>
             </mu-table>
