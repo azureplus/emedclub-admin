@@ -26,6 +26,10 @@
                     <mu-td>价格</mu-td>
                     <mu-td>{{information.price}}</mu-td>
                 </mu-tbody>
+                <mu-tbody v-else>
+                    <mu-td>报名人数</mu-td>
+                    <mu-td>{{information.price}}</mu-td>
+                </mu-tbody>
                 <mu-tbody>
                     <mu-td>照片</mu-td>
                     <mu-td><img :src="information.media" width=100 height=100/></mu-td>
