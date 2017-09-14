@@ -12,6 +12,11 @@
                     </mu-paper>
                 </mu-list-item>
                 <mu-list-item>
+                    <mu-select-field label="状态" v-model="poster.state">
+                        <mu-menu-item :value="index" :title="state" v-for="(state, index) in poster.states"/>
+                    </mu-select-field>
+                </mu-list-item>
+                <mu-list-item>
                     <mu-raised-button label="保存" fullWidth @click="onSave"/>
                 </mu-list-item>
             </mu-list>
