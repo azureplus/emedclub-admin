@@ -3,6 +3,7 @@
         <mu-content-block>
             <mu-raised-button label="修改" @click="onEdit"/>
             <mu-raised-button label="删除" @click="canDestroy"/>
+            <mu-raised-button label="发布广告" @click="onNewPoster"/>
 
             <mu-table multiSelectable enableSelectAll ref="table" v-if="information">
                 <mu-tbody>
@@ -99,7 +100,11 @@
 
             onEdit: function() {
                 this.goto("/information/edit/" + this.information.id)
-            }          
+            },
+
+            onNewPoster: function{
+                this.goto("/poster/new?entity_type=Information&entity_id=" + this.information.id)
+            }
         },
 
         components: {
