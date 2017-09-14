@@ -8,6 +8,8 @@ import Customer     from './model/Customer'
 import Merchant     from './model/Merchant'
 import Medicine     from './model/Medicine'
 import Information     from './model/Information'
+import Ticket     from './model/Ticket'
+import Poster     from './model/Poster'
 
 var url = Window.getBaseUrl();
 const _dao = new Dao(url, new AxiosDataSource());
@@ -17,6 +19,8 @@ _dao.addSchema("Customer", Customer);
 _dao.addSchema("Merchant", Merchant);
 _dao.addSchema("Medicine", Medicine);
 _dao.addSchema("Information", Information);
+_dao.addSchema("Ticket", Ticket);
+_dao.addSchema("Poster", Poster);
 
 export default {
     getUrl() {
