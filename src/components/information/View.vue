@@ -14,10 +14,14 @@
                     <mu-td>{{information.title}}</mu-td>
                 </mu-tbody>
                 <mu-tbody>
+                    <mu-td>作者</mu-td>
+                    <mu-td>{{information.author}}</mu-td>
+                </mu-tbody>                
+                <mu-tbody>
                     <mu-td>类别</mu-td>
                     <mu-td>{{information.categoryName}}</mu-td>
                 </mu-tbody>
-                <mu-tbody>
+                <mu-tbody v-if="information.category > 1">
                     <mu-td>价格</mu-td>
                     <mu-td>{{information.price}}</mu-td>
                 </mu-tbody>
