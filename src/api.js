@@ -18,7 +18,7 @@ _dao.addSchema("Account", Account);
 _dao.addSchema("Customer", Customer);
 _dao.addSchema("Merchant", Merchant);
 _dao.addSchema("Medicine", Medicine);
-_dao.addSchema("Information", Information);
+_dao.addSchema("Information", Information).hasMany("Ticket");
 _dao.addSchema("Ticket", Ticket);
 _dao.addSchema("Poster", Poster);
 
