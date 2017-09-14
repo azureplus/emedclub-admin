@@ -17,6 +17,9 @@
                 <mu-list-item title="资讯" value="/information/index">
                     <mu-icon slot="left" value="drafts"/>
                 </mu-list-item>
+                <mu-list-item title="广告" value="/poster/index">
+                    <mu-icon slot="left" value="drafts"/>
+                </mu-list-item>
             </mu-list>
         </div>
         
