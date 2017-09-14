@@ -22,7 +22,7 @@ export default class Poster extends Model {
         return ['展示', '不展示']
     }
 
-    get state() {
+    get stateName() {
         return this.states[this.state]
     }
 }
