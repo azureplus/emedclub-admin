@@ -2,8 +2,8 @@
     <layout :progressing="refreshing" :toast="toast">
        <mu-content-block v-if="information">
             <mu-list>
-                <mu-list-item title="类别">
-                    <mu-select-field v-model="information.category">
+                <mu-list-item>
+                    <mu-select-field label="类别" v-model="information.category">
                         <mu-menu-item value="0" title="课堂"/>
                         <mu-menu-item value="1" title="会议"/>
                         <mu-menu-item value="2" title="人才"/>
