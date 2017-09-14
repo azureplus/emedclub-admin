@@ -17,4 +17,12 @@ export default class Poster extends Model {
 
         this.defineRWAttrs(["entity_type", "entity_id", "media", "title", "state"]);
     }
+
+    get states() {
+        return ['展示', '不展示']
+    }
+
+    get state() {
+        return this.states[this.state]
+    }
 }
