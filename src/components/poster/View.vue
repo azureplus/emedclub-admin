@@ -16,7 +16,11 @@
                 <mu-tbody>
                     <mu-td>图片</mu-td>
                     <mu-td><img :src="poster.media" width=100 height=100/></mu-td>
-                </mu-tbody>                
+                </mu-tbody>   
+                <mu-tbody>
+                    <mu-td>状态</mu-td>
+                    <mu-td>{{poster.stateName}}</mu-td>
+                </mu-tbody>              
             </mu-table>
         </mu-content-block>
     </layout>
