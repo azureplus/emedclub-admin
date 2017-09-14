@@ -3,6 +3,9 @@
        <mu-content-block v-if="information">
             <mu-list>
                 <mu-list-item>
+                    <mu-text-field label="标题" v-model="information.title" fullWidth />
+                </mu-list-item>
+                <mu-list-item>
                     <mu-select-field label="类别" v-model="information.category">
                         <mu-menu-item value="0" title="课堂"/>
                         <mu-menu-item value="1" title="会议"/>
@@ -10,9 +13,6 @@
                         <mu-menu-item value="3" title="融资"/>
                         <mu-menu-item value="4" title="公司"/>
                     </mu-select-field>
-                </mu-list-item>
-                <mu-list-item>
-                    <mu-text-field label="标题" v-model="information.title" fullWidth />
                 </mu-list-item>
                 <mu-list-item>
                     <mu-text-field label="价格" v-model="information.price" type="number" fullWidth />
