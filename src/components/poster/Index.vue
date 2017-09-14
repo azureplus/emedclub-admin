@@ -1,8 +1,6 @@
 <template>
     <layout :progressing="refreshing" :toast="toast">
         <mu-content-block>
-            <mu-raised-button label="增加" @click="onAdd"/>
-
             <mu-table ref="table" :showCheckbox="false" @rowClick="onView">
                 <mu-thead>
                     <mu-tr>
