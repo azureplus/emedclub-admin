@@ -7,7 +7,7 @@
                 </mu-list-item>
                 <mu-list-item>
                     <mu-paper :zDepth="1" style="width: 100px;height: 100px;margin: 0 auto;">
-                        <img :src="poster.media" style="width: 100px;height: 100%" v-if="poster.logo" @click="onUploadLogo"/>
+                        <img :src="poster.media" style="width: 100px;height: 100%" v-if="poster.media" @click="onUploadLogo"/>
                         <div style="text-align: center;padding-top: 40px;" v-else  @click="onUploadLogo">图片</div>
                     </mu-paper>
                 </mu-list-item>
@@ -88,7 +88,6 @@
 
         components: {
             'layout': Layout,
-            VueEditor
         }
     }
 </script>

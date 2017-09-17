@@ -9,7 +9,6 @@
                         <mu-th>照片</mu-th>
                         <mu-th>标题</mu-th>
                         <mu-th>分类</mu-th>
-                        <mu-th>分类</mu-th>
                         <mu-th>价格</mu-th>
                     </mu-tr>
                 </mu-thead>
@@ -17,7 +16,7 @@
                     <mu-tr v-for="information in informations" :key="information.id">
                         <mu-td><img :src="information.media" width=100 height=100/></mu-td>
                         <mu-td>{{information.title}}</mu-td>
-                        <mu-td>{{information.category}}</mu-td>
+                        <mu-td>{{information.categoryName}}</mu-td>
                         <mu-td>{{information.price}}</mu-td>
                     </mu-tr>
                 </mu-tbody>

@@ -76,7 +76,7 @@
 
             onModelIndex: function(val) {
                 this.activeIndex = val
-                this.$router.push({path: val});
+                this.$router.replace({path: val});
             },
 
             closeDestroySheet: function() {

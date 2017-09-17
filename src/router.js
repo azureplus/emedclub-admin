@@ -50,7 +50,7 @@ export default new Router({
 
     { 
       path: '/information/index',
-      name: 'information',
+      name: 'list-information',
       component: require('./components/information/Index.vue'),
       meta: { requiresAuth: true }
     },    
@@ -85,29 +85,35 @@ export default new Router({
       component: require('./components/poster/Edit.vue'),
       meta: { requiresAuth: true }
     },
+    { 
+      path: '/poster/view/:id',
+      name: 'view-poster',
+      component: require('./components/poster/View.vue'),
+      meta: { requiresAuth: true }
+    }, 
 
 
     { 
       path: '/merchant/index',
-      name: 'list_merchant',
+      name: 'list-merchant',
       component: require('./components/merchant/Index.vue'),
       meta: { requiresAuth: true }
     },
     { 
       path: '/merchant/new',
-      name: 'new_merchant',
+      name: 'new-merchant',
       component: require('./components/merchant/Edit.vue'),
       meta: { requiresAuth: true }
     }, 
     { 
       path: '/merchant/edit/:id',
-      name: 'edit_merchant',
+      name: 'edit-merchant',
       component: require('./components/merchant/Edit.vue'),
       meta: { requiresAuth: true }
     }, 
     { 
       path: '/merchant/view/:id',
-      name: 'show_merchant',
+      name: 'view-merchant',
       component: require('./components/merchant/View.vue'),
       meta: { requiresAuth: true }
     }, 

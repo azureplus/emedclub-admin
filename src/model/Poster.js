@@ -25,4 +25,10 @@ export default class Poster extends Model {
     get stateName() {
         return this.states[this.state]
     }
+
+    static createDefault() {
+        return new Poster({
+            entity_type: "", entity_id: '', title: '', media: '', state: 0,
+        })
+    }
 }

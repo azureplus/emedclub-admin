@@ -1,11 +1,11 @@
 <template>
     <layout :progressing="refreshing" :toast="toast" :destroySheet="destroySheet" @on-destroy="onDestroy" @on-cancel-destroy="onCancelDestroy">
-        <mu-content-block>
+        <mu-content-block v-if="information">
             <mu-raised-button label="修改" @click="onEdit"/>
             <mu-raised-button label="删除" @click="canDestroy"/>
             <mu-raised-button label="发布广告" @click="onNewPoster"/>
 
-            <mu-table multiSelectable enableSelectAll ref="table" v-if="information">
+            <mu-table multiSelectable enableSelectAll>
                 <mu-tbody>
                     <mu-td style="width:20%">ID</mu-td>
                     <mu-td>{{information.id}}</mu-td>
@@ -51,8 +51,11 @@
                     <mu-td>{{information.total_comments}}</mu-td>
                 </mu-tbody>
             </mu-table>
+        </mu-content-block>
 
-            <mu-table ref="table" :showCheckbox="false"  v-if="information.category <= 1">
+        <mu-content-block v-if="information && information.category <= 1">
+            <mu-sub-header>门票</mu-sub-header>
+            <mu-table ref="table" :showCheckbox="false">
                 <mu-thead>
                     <mu-tr>
                         <mu-th>名称</mu-th>
@@ -61,10 +64,10 @@
                     </mu-tr>
                 </mu-thead>
                 <mu-tbody>
-                    <mu-tr v-for="ticket in information.tickes" :key="ticket.id">
+                    <mu-tr v-for="ticket in information.tickets" :key="ticket.id">
                         <mu-td>{{ticket.name}}</mu-td>
                         <mu-td>{{ticket.price}}</mu-td>
-                        <mu-td><mu-raised-button label="删除" @click="onDestroyTicket(ticket)"/></mu-td>
+                        <mu-td><mu-raised-button label="删除" @click="onDestroyTicket(ticket.id)"/></mu-td>
                     </mu-tr>
                 </mu-tbody>
             </mu-table>
@@ -89,6 +92,7 @@
     import api from '../../api'
     import { mapGetters, mapActions } from 'vuex'
     import Mixin from '../../mixin'
+    import Ticket from '../../model/Ticket'
 
     export default {
         mixins: [Mixin],
@@ -144,11 +148,16 @@
 
             onAddTicket: function() {
                 var self = this
+
                 var ticket = new Ticket()
                 ticket.information_id = self.information.id
                 ticket.name = self.name
                 ticket.price = self.price
                 api.save(ticket).then(function(){
+                    if (!self.information.tickets) {
+                        self.information.tickets = []
+                    }
+
                     self.information.tickets.push(ticket)
                 })
             },
@@ -158,7 +167,7 @@
 
                 for(var i = 0; i < self.information.tickets.length; i++) {
                     if (self.information.tickets[i].id === ticketId) {
-                        self.wait(api.destroy(ticket)).then(function(){
+                        self.wait(api.destroy(self.information.tickets[i])).then(function(){
                             self.information.tickets.splice(i, 1)
                         })
 
