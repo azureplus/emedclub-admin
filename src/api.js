@@ -8,6 +8,7 @@ import Customer     from './model/Customer'
 import Merchant     from './model/Merchant'
 import Medicine     from './model/Medicine'
 import Information     from './model/Information'
+import Tag     from './model/Tag'
 import Ticket     from './model/Ticket'
 import Poster     from './model/Poster'
 
@@ -18,7 +19,8 @@ _dao.addSchema("Account", Account);
 _dao.addSchema("Customer", Customer);
 _dao.addSchema("Merchant", Merchant);
 _dao.addSchema("Medicine", Medicine);
-_dao.addSchema("Information", Information).hasMany("Ticket");
+_dao.addSchema("Information", Information).hasMany("Ticket").hasMany("Tag");
+_dao.addSchema("Tag", Tag);
 _dao.addSchema("Ticket", Ticket);
 _dao.addSchema("Poster", Poster);
 

@@ -44,13 +44,40 @@
                 </mu-tbody>
                 <mu-tbody>
                     <mu-td>浏览</mu-td>
-                    <mu-td>{{information.total_viewrs}}</mu-td>
+                    <mu-td>{{information.total_views}}</mu-td>
                 </mu-tbody>
                 <mu-tbody>
                     <mu-td>评论</mu-td>
                     <mu-td>{{information.total_comments}}</mu-td>
                 </mu-tbody>
             </mu-table>
+        </mu-content-block>
+
+        <mu-content-block v-if="information">
+            <mu-sub-header>标签</mu-sub-header>
+            <mu-table ref="table" :showCheckbox="false">
+                <mu-thead>
+                    <mu-tr>
+                        <mu-th>名称</mu-th>
+                        <mu-th></mu-th>
+                    </mu-tr>
+                </mu-thead>
+                <mu-tbody>
+                    <mu-tr v-for="tag in information.tags" :key="tag.id">
+                        <mu-td>{{tag.name}}</mu-td>
+                        <mu-td><mu-raised-button label="删除" @click="onDestroyTag(tag.id)"/></mu-td>
+                    </mu-tr>
+                </mu-tbody>
+            </mu-table>
+
+            <mu-list>
+                <mu-list-item>
+                    <mu-text-field label="名称" v-model="tag" fullWidth />
+                </mu-list-item>
+                <mu-list-item>
+                    <mu-raised-button label="增加标签" fullWidth @click="onAddTag"/>
+                </mu-list-item>
+            </mu-list>
         </mu-content-block>
 
         <mu-content-block v-if="information && information.category <= 1">
@@ -93,6 +120,7 @@
     import { mapGetters, mapActions } from 'vuex'
     import Mixin from '../../mixin'
     import Ticket from '../../model/Ticket'
+    import Tag from '../../model/Tag'
 
     export default {
         mixins: [Mixin],
@@ -105,6 +133,8 @@
 
                 name: '',
                 price: 100,
+
+                tag: '',
             }
         },
 
@@ -144,6 +174,35 @@
 
             onNewPoster: function(){
                 this.goto("/poster/new?entity_type=Information&entity_id=" + this.information.id)
+            },
+
+            onAddTag: function() {
+                var self = this
+
+                var tag = new Tag()
+                tag.information_id = self.information.id
+                tag.name = self.tag
+                api.save(tag).then(function(){
+                    if (!self.information.tags) {
+                        self.information.tags = []
+                    }
+
+                    self.information.tags.push(tag)
+                })
+            },
+
+            onDestroyTag: function(tagId) {
+                var self = this
+
+                for(var i = 0; i < self.information.tags.length; i++) {
+                    if (self.information.tags[i].id === tagId) {
+                        self.wait(api.destroy(self.information.tags[i])).then(function(){
+                            self.information.tags.splice(i, 1)
+                        })
+
+                        break;
+                    }
+                }
             },
 
             onAddTicket: function() {

@@ -66,6 +66,12 @@ export default new Router({
       component: require('./components/information/View.vue'),
       meta: { requiresAuth: true }
     },
+    { 
+      path: '/information/edit/:id',
+      name: 'edit-information',
+      component: require('./components/information/Edit.vue'),
+      meta: { requiresAuth: true }
+    },
 
     { 
       path: '/poster/index',
