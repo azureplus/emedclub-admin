@@ -1,5 +1,5 @@
 <template>
-    <layout :progressing="refreshing" :toast="toast">
+    <layout :progressing="refreshing" :toast="toast" activeIndex="/medicine/index">
         <mu-content-block>
             <mu-raised-button label="增加" @click="onAdd"/>
 

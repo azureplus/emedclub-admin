@@ -42,13 +42,11 @@
 
 <script>
     export default {
-        props: ['progressing', 'toast', 'loading', 'destroySheet'],
+        props: ['activeIndex', 'progressing', 'toast', 'loading', 'destroySheet'],
 
         data () {
             return {
                 scroller: null,
-
-                activeIndex: '',
             }
         },
 
@@ -75,7 +73,6 @@
             },
 
             onModelIndex: function(val) {
-                this.activeIndex = val
                 this.$router.replace({path: val});
             },
 

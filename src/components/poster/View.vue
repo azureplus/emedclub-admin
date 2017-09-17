@@ -1,5 +1,5 @@
 <template>
-    <layout :progressing="refreshing" :toast="toast" :destroySheet="destroySheet" @on-destroy="onDestroy" @on-cancel-destroy="onCancelDestroy">
+    <layout :progressing="refreshing" :toast="toast" :destroySheet="destroySheet" @on-destroy="onDestroy" @on-cancel-destroy="onCancelDestroy" activeIndex="/information/index">
         <mu-content-block>
             <mu-raised-button label="修改" @click="onEdit"/>
             <mu-raised-button label="删除" @click="canDestroy"/>

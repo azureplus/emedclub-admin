@@ -1,5 +1,5 @@
 <template>
-    <layout :progressing="refreshing" :toast="toast">
+    <layout :progressing="refreshing" :toast="toast" activeIndex="/merchant/index">
        <mu-content-block v-if="merchant">
             <mu-list>
                 <mu-list-item>

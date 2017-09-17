@@ -1,5 +1,5 @@
 <template>
-    <layout :progressing="refreshing" :toast="toast">
+    <layout :progressing="refreshing" :toast="toast" activeIndex="/medicine/index">
        <mu-content-block v-if="medicine">
             <mu-list>
                 <mu-list-item title="医药公司">

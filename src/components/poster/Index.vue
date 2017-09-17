@@ -1,5 +1,5 @@
 <template>
-    <layout :progressing="refreshing" :toast="toast">
+    <layout :progressing="refreshing" :toast="toast" activeIndex="/poster/index">
         <mu-content-block>
             <mu-table ref="table" :showCheckbox="false" @rowClick="onView">
                 <mu-thead>
