@@ -28,7 +28,7 @@ export default class Information extends Model {
     }
 
     get categories() {
-        return ['课堂', '会议', '人才', '融资', '公司']
+        return ['课堂', '会议', '人才', '融资', '公司', '最新']
     }
 
     get categoryName() {
