@@ -34,4 +34,12 @@ export default class Information extends Model {
     get categoryName() {
         return this.categories[this.category]
     }
+
+    get prices() {
+        return ['游客可见', '会员可见', 'VIP可见']
+    }
+
+    get priceName() {
+        return this.prices[this.price]
+    }
 }

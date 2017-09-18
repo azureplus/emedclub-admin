@@ -13,8 +13,13 @@
                         <mu-menu-item :value="index" :title="category" v-for="(category, index) in information.categories"/>
                     </mu-select-field>
                 </mu-list-item>
-                <mu-list-item>
-                    <mu-text-field label="价格" v-model="information.price" type="number" fullWidth />
+                <mu-list-item v-if="information.category > 1">
+                    <mu-select-field label="浏览用户" v-model="information.price">
+                        <mu-menu-item :value="index" :title="price" v-for="(price, index) in information.prices"/>
+                    </mu-select-field>
+                </mu-list-item>
+                <mu-list-item v-else>
+                    <mu-text-field label="报名人数" v-model="information.price" type="number" fullWidth />
                 </mu-list-item>
                 <mu-list-item>
                     <mu-paper :zDepth="1" style="width: 100px;height: 100px;margin: 0 auto;">

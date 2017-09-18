@@ -44,12 +44,4 @@ export default class Customer extends Model {
 			return '保密';
 		}
 	}
-
-	static ratio(customer) {
-		if (customer.total_contracts == 0) {
-			return "0";
-		} else {
-			return new Number(100 * customer.settled_contracts / customer.total_contracts).toFixed(0);
-		}
-	}
 }
