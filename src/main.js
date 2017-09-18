@@ -5,15 +5,9 @@ import api from './api'
 
 import store from './store'
 
-import ChannelWeixin from './channel/ChannelWeixin'
 import ChannelDefault from './channel/ChannelDefault'
-let ua = navigator.userAgent.toLowerCase();
-let result = ua.match(/MicroMessenger/i);
-if (result && result.length > 0 && result[0] == "micromessenger") {
-	var channel = new ChannelWeixin();
-} else {
-	var channel = new ChannelDefault();
-}
+var channel = new ChannelDefault();
+
 Vue.prototype.$channel = channel;
 
 import router from './router'
