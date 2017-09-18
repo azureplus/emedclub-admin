@@ -12,10 +12,6 @@ Vue.prototype.$channel = channel;
 
 import router from './router'
 router.beforeEach((to, from, next) => {
-	if (_hmt) {
-		_hmt.push(['_trackPageview', to.fullPath]);
-	}
-
 	if (to.matched.some(record => record.meta.requiresAuth)) {
 	   	if (null == store.state.customers.me) {
 		   	channel.loginQuietly().then(function(account){
